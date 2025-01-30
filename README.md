@@ -14,17 +14,15 @@ The application and code are only available for demonstration purposes.
 
 ### Setting Up Credentials
 
-To use the *Prime Python SDK*, initialize the [Credentials](credentials.py) class with your Prime API credentials. This class is designed to facilitate the secure handling of sensitive information required to authenticate API requests.
+To use the *Prime Python SDK*, initialize the [Credentials](prime_sdk/credentials.py) class with your Prime API credentials. This class is designed to facilitate the secure handling of sensitive information required to authenticate API requests.
 
 Ensure that your API credentials are stored securely and are not hard-coded directly in your source code. The Credentials class supports creating credentials from a JSON string or directly from environment variables, providing flexibility and enhancing security.
 
 #### Example Initialization:
 ```python
-from credentials import Credentials
-from client import Client
+from prime_sdk.credentials import Credentials
 
 credentials = Credentials.from_env("PRIME_CREDENTIALS")
-client = Client(credentials)
 ```
 
 #### Environment Variable Format: 
@@ -50,19 +48,18 @@ Coinbase Prime API credentials can be created in the Prime web console under Set
 Once the client is initialized, make the desired call. For example, to [list portfolios](https://github.com/coinbase-samples/prime-sdk-py/blob/main/list_portfolios.py),
 pass in the request object, check for an error, and if nil, process the response.
 
-
 ```python
-from list_portfolios import PrimeClient, ListPortfoliosRequest
+from prime_sdk.list_portfolios import PrimeClient, ListPortfoliosRequest
 
 credentials = Credentials.from_env("PRIME_CREDENTIALS")
 prime_client = PrimeClient(credentials)
-    
+
 request = ListPortfoliosRequest()
 try:
     response = prime_client.list_portfolios(request)
     print(response)
 except Exception as e:
-    print(f"failed to list portfolios: {e}")
+    print(f"Failed to list portfolios: {e}")
 
 ```
 

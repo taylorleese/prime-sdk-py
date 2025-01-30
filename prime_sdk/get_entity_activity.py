@@ -13,10 +13,10 @@
 #  limitations under the License.
 
 from dataclasses import dataclass
-from base_response import BaseResponse
-from client import Client
+from prime_sdk.base_response import BaseResponse
+from prime_sdk.client import Client
 from typing import List
-from credentials import Credentials
+from prime_sdk.credentials import Credentials
 
 
 @dataclass

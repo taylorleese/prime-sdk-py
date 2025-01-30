@@ -14,10 +14,10 @@
 
 from dataclasses import dataclass
 
-from base_response import BaseResponse
-from client import Client
-from credentials import Credentials
-from utils import PaginationParams, append_pagination_params, append_query_param
+from prime_sdk.base_response import BaseResponse
+from prime_sdk.client import Client
+from prime_sdk.credentials import Credentials
+from prime_sdk.utils import PaginationParams, append_pagination_params, append_query_param
 from typing import Optional, List
 
 

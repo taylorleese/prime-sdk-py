@@ -13,7 +13,7 @@
 #  limitations under the License.
 
 from prime_sdk.credentials import Credentials
-from list_portfolios import PrimeClient, ListPortfoliosRequest
+from prime_sdk.list_portfolios import PrimeClient, ListPortfoliosRequest
 
 
 def main():

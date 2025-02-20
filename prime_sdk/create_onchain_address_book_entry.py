@@ -15,24 +15,9 @@
 from dataclasses import dataclass, asdict
 from prime_sdk.base_response import BaseResponse
 from prime_sdk.client import Client
-from typing import Optional, List
+from typing import List
 from prime_sdk.credentials import Credentials
-from prime_sdk.enums import NetworkType
-
-
-@dataclass
-class Addresses:
-    name: str
-    address: str
-    chain_ids: Optional[List[str]] = None
-
-
-@dataclass
-class AddressGroup:
-    id: str
-    name: str
-    network_type: NetworkType
-    addresses: Addresses
+from prime_sdk.model import AddressGroup
 
 
 @dataclass

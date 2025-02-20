@@ -1,4 +1,4 @@
-# Copyright 2024-present Coinbase Global, Inc.
+# Copyright 2025-present Coinbase Global, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -38,7 +38,7 @@ class AllocationLeg:
 
 
 @dataclass
-class CreatePortfolioAllocationsRequest:
+class CreatePortfolioNetAllocationsRequest:
     allocation_id: str
     source_portfolio_id: str
     product_id: str
@@ -50,21 +50,21 @@ class CreatePortfolioAllocationsRequest:
 
 
 @dataclass
-class CreatePortfolioAllocationsResponse(BaseResponse):
-    request: CreatePortfolioAllocationsRequest
+class CreatePortfolioNetAllocationsResponse(BaseResponse):
+    request: CreatePortfolioNetAllocationsRequest
 
 
 class PrimeClient:
     def __init__(self, credentials: Credentials):
         self.client = Client(credentials)
 
-    def create_portfolio_allocations(
+    def create_portfolio_net_allocations(
             self,
-            request: CreatePortfolioAllocationsRequest) -> CreatePortfolioAllocationsResponse:
-        path = "/allocations"
+            request: CreatePortfolioNetAllocationsRequest) -> CreatePortfolioNetAllocationsResponse:
+        path = "/allocations/net"
 
         body = asdict(request)
         body['allocation_legs'] = [asdict(leg) for leg in request.allocation_legs]
 
         response = self.client.request("POST", path, body=body, allowed_status_codes=request.allowed_status_codes)
-        return CreatePortfolioAllocationsResponse(response.json(), request)
+        return CreatePortfolioNetAllocationsResponse(response.json(), request)

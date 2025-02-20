@@ -1,4 +1,4 @@
-# Copyright 2024-present Coinbase Global, Inc.
+# Copyright 2025-present Coinbase Global, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -17,41 +17,43 @@ from prime_sdk.base_response import BaseResponse
 from prime_sdk.client import Client
 from typing import Optional, List
 from prime_sdk.credentials import Credentials
-from prime_sdk.enums import OrderSide, OrderType, TimeInForce
 
 
 @dataclass
-class CreateOrderRequest:
+class Rpc:
+    skip_broadcast: Optional[bool] = None
+    url: Optional[str] = None
+
+
+@dataclass
+class EvmParams:
+    disable_dynamic_gas: Optional[bool] = None
+    replaced_transaction_id: Optional[str] = None
+    chain_id: Optional[str] = None
+
+
+@dataclass
+class CreateOnchainTransactionRequest:
     portfolio_id: str
-    side: OrderSide
-    client_order_id: str
-    product_id: str
-    type: OrderType
-    base_quantity: Optional[str] = None
-    quote_value: Optional[str] = None
-    limit_price: Optional[str] = None
-    start_time: Optional[str] = None
-    expiry_time: Optional[str] = None
-    time_in_force: Optional[TimeInForce] = None
-    stp_id: Optional[str] = None
-    display_quote_size: Optional[str] = None
-    display_base_size: Optional[str] = None
-    is_raise_exact: Optional[str] = None
-    historical_pov: Optional[str] = None
+    wallet_id: str
+    raw_unsigned_txn: str
+    rpc: Optional[Rpc] = None
+    evm_params: Optional[EvmParams] = None
     allowed_status_codes: List[int] = None
 
 
+
 @dataclass
-class CreateOrderResponse(BaseResponse):
-    request: CreateOrderRequest
+class CreateOnchainTransactionResponse(BaseResponse):
+    request: CreateOnchainTransactionRequest
 
 
 class PrimeClient:
     def __init__(self, credentials: Credentials):
         self.client = Client(credentials)
         
-    def create_order(self, request: CreateOrderRequest) -> CreateOrderResponse:
-        path = f"/portfolios/{request.portfolio_id}/order"
+    def create_onchain_transaction(self, request: CreateOnchainTransactionRequest) -> CreateOnchainTransactionResponse:
+        path = f"/portfolios/{request.portfolio_id}/wallets/{request.wallet_id}/onchain_transaction"
         body = {k: v for k, v in asdict(request).items() if v is not None}
         response = self.client.request("POST", path, body=body, allowed_status_codes=request.allowed_status_codes)
-        return CreateOrderResponse(response.json(), request)
+        return CreateOnchainTransactionResponse(response.json(), request)

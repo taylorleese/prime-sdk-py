@@ -19,12 +19,13 @@ from prime_sdk.client import Client
 from typing import Optional, List
 from prime_sdk.credentials import Credentials
 from prime_sdk.utils import PaginationParams, append_query_param, append_pagination_params
+from prime_sdk.enums import WalletType
 
 
 @dataclass
 class ListWalletsRequest:
     portfolio_id: str
-    type: str = None
+    type: WalletType = None
     symbols: Optional[str] = None
     pagination: Optional[PaginationParams] = None
     allowed_status_codes: List[int] = None

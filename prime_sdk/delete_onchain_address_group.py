@@ -1,4 +1,4 @@
-# Copyright 2024-present Coinbase Global, Inc.
+# Copyright 2025-present Coinbase Global, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -15,31 +15,27 @@
 from dataclasses import dataclass, asdict
 from prime_sdk.base_response import BaseResponse
 from prime_sdk.client import Client
-from typing import List
+from typing import Optional, List
 from prime_sdk.credentials import Credentials
-from prime_sdk.enums import WalletType
 
 
 @dataclass
-class CreateWalletRequest:
+class DeleteOnchainAddressGroupRequest:
     portfolio_id: str
-    name: str
-    symbol: str
-    wallet_type: WalletType
+    address_group_id: str
     allowed_status_codes: List[int] = None
 
 
 @dataclass
-class CreateWalletResponse(BaseResponse):
-    request: CreateWalletRequest
+class DeleteOnchainAddressGroupResponse(BaseResponse):
+    request: DeleteOnchainAddressGroupRequest
 
 
 class PrimeClient:
     def __init__(self, credentials: Credentials):
         self.client = Client(credentials)
         
-    def create_wallet(self, request: CreateWalletRequest) -> CreateWalletResponse:
-        path = f"/portfolios/{request.portfolio_id}/wallets"
-        body = asdict(request)
-        response = self.client.request("POST", path, body=body, allowed_status_codes=request.allowed_status_codes)
-        return CreateWalletResponse(response.json(), request)
+    def delete_onchain_address_group(self, request: DeleteOnchainAddressGroupRequest) -> DeleteOnchainAddressGroupResponse:
+        path = f"/portfolios/{request.portfolio_id}/onchain_address_group/{request.address_group_id}"
+        response = self.client.request("DELETE", path, allowed_status_codes=request.allowed_status_codes)
+        return DeleteOnchainAddressGroupResponse(response.json(), request)

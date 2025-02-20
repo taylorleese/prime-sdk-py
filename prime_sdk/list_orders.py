@@ -16,10 +16,11 @@ from dataclasses import dataclass
 from prime_sdk.base_response import BaseResponse
 from prime_sdk.client import Client
 from typing import Optional, List
+from datetime import datetime
 
 from prime_sdk.credentials import Credentials
 from prime_sdk.utils import PaginationParams, append_query_param, append_pagination_params
-from datetime import datetime
+from prime_sdk.enums import OrderSide, OrderType
 
 
 @dataclass
@@ -27,8 +28,8 @@ class ListOrdersRequest:
     portfolio_id: str
     order_statuses: Optional[str] = None
     product_ids: Optional[str] = None
-    order_type: Optional[str] = None
-    order_side: Optional[str] = None
+    order_type: Optional[OrderType] = None
+    order_side: Optional[OrderSide] = None
     start_date: Optional[datetime] = None
     end_date: Optional[datetime] = None
     pagination: Optional[PaginationParams] = None

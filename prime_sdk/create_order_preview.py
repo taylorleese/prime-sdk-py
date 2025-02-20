@@ -17,20 +17,21 @@ from prime_sdk.base_response import BaseResponse
 from prime_sdk.client import Client
 from typing import Optional, List
 from prime_sdk.credentials import Credentials
+from prime_sdk.enums import OrderSide, OrderType, TimeInForce
 
 
 @dataclass
 class CreateOrderPreviewRequest:
     portfolio_id: str
-    side: str
+    side: OrderSide
     product_id: str
-    type: str
+    type: OrderType
     base_quantity: Optional[str] = None
     quote_value: Optional[str] = None
     limit_price: Optional[str] = None
     start_time: Optional[str] = None
     expiry_time: Optional[str] = None
-    time_in_force: Optional[str] = None
+    time_in_force: Optional[TimeInForce] = None
     stp_id: Optional[str] = None
     display_quote_size: Optional[str] = None
     display_base_size: Optional[str] = None

@@ -1,4 +1,4 @@
-# Copyright 2024-present Coinbase Global, Inc.
+# Copyright 2025-present Coinbase Global, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -12,34 +12,29 @@
 # See the License for the specific language governing permissions and
 #  limitations under the License.
 
-from dataclasses import dataclass, asdict
+from dataclasses import dataclass
 from prime_sdk.base_response import BaseResponse
 from prime_sdk.client import Client
-from typing import List
+from typing import Optional, List
 from prime_sdk.credentials import Credentials
-from prime_sdk.enums import WalletType
 
 
 @dataclass
-class CreateWalletRequest:
+class ListOnchainAddressGroupsRequest:
     portfolio_id: str
-    name: str
-    symbol: str
-    wallet_type: WalletType
     allowed_status_codes: List[int] = None
 
 
 @dataclass
-class CreateWalletResponse(BaseResponse):
-    request: CreateWalletRequest
+class ListOnchainAddressGroupsResponse(BaseResponse):
+    request: ListOnchainAddressGroupsRequest
 
 
 class PrimeClient:
     def __init__(self, credentials: Credentials):
         self.client = Client(credentials)
         
-    def create_wallet(self, request: CreateWalletRequest) -> CreateWalletResponse:
-        path = f"/portfolios/{request.portfolio_id}/wallets"
-        body = asdict(request)
-        response = self.client.request("POST", path, body=body, allowed_status_codes=request.allowed_status_codes)
-        return CreateWalletResponse(response.json(), request)
+    def list_onchain_address_groups(self, request: ListOnchainAddressGroupsRequest) -> ListOnchainAddressGroupsResponse:
+        path = f"/portfolios/{request.portfolio_id}/onchain_address_groups"
+        response = self.client.request("GET", path, allowed_status_codes=request.allowed_status_codes)
+        return ListOnchainAddressGroupsResponse(response.json(), request)

@@ -16,6 +16,7 @@ from dataclasses import dataclass
 from typing import Optional, List
 from datetime import datetime
 from prime_sdk.base_response import BaseResponse
+from prime_sdk.enums import OrderSide
 from prime_sdk.client import Client
 from prime_sdk.credentials import Credentials
 from prime_sdk.utils import PaginationParams, append_query_param, append_pagination_params
@@ -25,7 +26,7 @@ from prime_sdk.utils import PaginationParams, append_query_param, append_paginat
 class ListPortfolioAllocationsRequest:
     portfolio_id: str
     product_ids: Optional[str] = None
-    order_side: Optional[str] = None
+    order_side: Optional[OrderSide] = None
     start_date: datetime = None
     end_date: Optional[datetime] = None
     pagination: Optional[PaginationParams] = None

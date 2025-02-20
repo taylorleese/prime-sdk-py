@@ -18,13 +18,14 @@ from prime_sdk.client import Client
 from typing import List
 from prime_sdk.credentials import Credentials
 from prime_sdk.utils import append_query_param
+from prime_sdk.enums import WalletDepositType
 
 
 @dataclass
 class GetWalletDepositInstructionsRequest:
     portfolio_id: str
     wallet_id: str
-    deposit_type: str
+    deposit_type: WalletDepositType
     allowed_status_codes: List[int] = None
 
 

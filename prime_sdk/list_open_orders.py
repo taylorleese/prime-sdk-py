@@ -19,6 +19,7 @@ from typing import Optional, List
 from datetime import datetime
 from prime_sdk.credentials import Credentials
 from prime_sdk.utils import append_query_param
+from prime_sdk.enums import OrderType, OrderSide
 
 
 @dataclass
@@ -26,8 +27,8 @@ class ListOpenOrdersRequest:
     portfolio_id: str
     order_statuses: Optional[str] = None
     product_ids: Optional[str] = None
-    order_type: Optional[str] = None
-    order_side: Optional[str] = None
+    order_type: Optional[OrderType] = None
+    order_side: Optional[OrderSide] = None
     start_date: datetime = None
     end_date: Optional[datetime] = None
     allowed_status_codes: List[int] = None

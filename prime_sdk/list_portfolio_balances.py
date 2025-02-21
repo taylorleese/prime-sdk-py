@@ -17,6 +17,7 @@ from typing import Optional, List
 from prime_sdk.base_response import BaseResponse
 from prime_sdk.client import Client
 from prime_sdk.credentials import Credentials
+from prime_sdk.enums import BalanceType
 from prime_sdk.utils import PaginationParams, append_query_param, append_pagination_params
 
 
@@ -24,7 +25,7 @@ from prime_sdk.utils import PaginationParams, append_query_param, append_paginat
 class ListPortfolioBalancesRequest:
     portfolio_id: str
     symbols: Optional[str] = None
-    balance_type: Optional[str] = None
+    balance_type: Optional[BalanceType] = None
     pagination: Optional[PaginationParams] = None
     allowed_status_codes: List[int] = None
 

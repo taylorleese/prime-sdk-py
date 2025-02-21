@@ -1,4 +1,4 @@
-# Copyright 2024-present Coinbase Global, Inc.
+# Copyright 2025-present Coinbase Global, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -12,18 +12,19 @@
 # See the License for the specific language governing permissions and
 #  limitations under the License.
 
-from setuptools import setup, find_packages
+from dataclasses import dataclass
+from typing import List
+from prime_sdk.enums import NetworkType
 
-setup(
-    name="prime-sdk-py",
-    version="0.3.0",
-    packages=find_packages(),
-    install_requires=[
-        'requests',
-    ],
-    entry_points={
-        'console_scripts': [
-            'prime-sdk=prime_sdk.__main__:main',
-        ],
-    },
-)
+@dataclass
+class Addresses:
+    name: str
+    address: str
+    chain_ids: List[str]
+
+@dataclass
+class AddressGroup:
+    id: str
+    name: str
+    network_type: NetworkType
+    addresses: Addresses

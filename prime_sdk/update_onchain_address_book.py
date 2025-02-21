@@ -1,4 +1,4 @@
-# Copyright 2024-present Coinbase Global, Inc.
+# Copyright 2025-present Coinbase Global, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -17,29 +17,27 @@ from prime_sdk.base_response import BaseResponse
 from prime_sdk.client import Client
 from typing import List
 from prime_sdk.credentials import Credentials
-from prime_sdk.enums import WalletType
+from prime_sdk.model import AddressGroup
 
 
 @dataclass
-class CreateWalletRequest:
+class UpdateOnchainAddressBookRequest:
     portfolio_id: str
-    name: str
-    symbol: str
-    wallet_type: WalletType
+    address_group: AddressGroup
     allowed_status_codes: List[int] = None
 
 
 @dataclass
-class CreateWalletResponse(BaseResponse):
-    request: CreateWalletRequest
+class UpdateOnchainAddressBookResponse(BaseResponse):
+    request: UpdateOnchainAddressBookRequest
 
 
 class PrimeClient:
     def __init__(self, credentials: Credentials):
         self.client = Client(credentials)
         
-    def create_wallet(self, request: CreateWalletRequest) -> CreateWalletResponse:
-        path = f"/portfolios/{request.portfolio_id}/wallets"
-        body = asdict(request)
-        response = self.client.request("POST", path, body=body, allowed_status_codes=request.allowed_status_codes)
-        return CreateWalletResponse(response.json(), request)
+    def update_onchain_address_book(self, request: UpdateOnchainAddressBookRequest) -> UpdateOnchainAddressBookResponse:
+        path = f"/portfolios/{request.portfolio_id}/onchain_address_group"
+        body = {k: v for k, v in asdict(request).items() if v is not None}
+        response = self.client.request("PUT", path, body=body, allowed_status_codes=request.allowed_status_codes)
+        return UpdateOnchainAddressBookResponse(response.json(), request)

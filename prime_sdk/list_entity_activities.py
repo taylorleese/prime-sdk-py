@@ -19,12 +19,13 @@ from typing import Optional, List
 from datetime import datetime
 from prime_sdk.credentials import Credentials
 from prime_sdk.utils import PaginationParams, append_query_param, append_pagination_params
+from prime_sdk.enums import ActivityLevel
 
 
 @dataclass
 class ListEntityActivitiesRequest:
     entity_id: str
-    activity_level: Optional[str] = None
+    activity_level: Optional[ActivityLevel] = None
     symbols: Optional[str] = None
     categories: Optional[str] = None
     statuses: Optional[str] = None

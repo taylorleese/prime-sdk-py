@@ -32,7 +32,9 @@ class CreateAddressBookEntryRequest:
 
 @dataclass
 class CreateAddressBookEntryResponse(BaseResponse):
-    request: CreateAddressBookEntryRequest
+    activity_type: str = None
+    num_approvals_remaining: int = None
+    activity_id: str = None
 
 
 class PrimeClient:
@@ -43,4 +45,4 @@ class PrimeClient:
         path = f"/portfolios/{request.portfolio_id}/address_book"
         body = {k: v for k, v in asdict(request).items() if v is not None}
         response = self.client.request("POST", path, body=body, allowed_status_codes=request.allowed_status_codes)
-        return CreateAddressBookEntryResponse(response.json(), request)
+        return CreateAddressBookEntryResponse(response.json())

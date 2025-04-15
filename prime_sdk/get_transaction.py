@@ -17,6 +17,7 @@ from prime_sdk.base_response import BaseResponse
 from prime_sdk.client import Client
 from typing import List
 from prime_sdk.credentials import Credentials
+from prime_sdk.model import Transaction
 
 
 @dataclass
@@ -28,7 +29,7 @@ class GetTransactionRequest:
 
 @dataclass
 class GetTransactionResponse(BaseResponse):
-    request: GetTransactionRequest
+    transaction: Transaction = None
 
 
 class PrimeClient:
@@ -38,4 +39,4 @@ class PrimeClient:
     def get_transaction(self, request: GetTransactionRequest) -> GetTransactionResponse:
         path = f"/portfolios/{request.portfolio_id}/transactions/{request.transaction_id}"
         response = self.client.request("GET", path, query=None, allowed_status_codes=request.allowed_status_codes)
-        return GetTransactionResponse(response.json(), request)
+        return GetTransactionResponse(response.json())

@@ -18,6 +18,7 @@ from prime_sdk.client import Client
 from typing import Optional, List
 from prime_sdk.credentials import Credentials
 from prime_sdk.utils import PaginationParams, append_pagination_params
+from prime_sdk.model import Details
 
 
 @dataclass
@@ -29,7 +30,7 @@ class ListEntityPaymentMethodsRequest:
 
 @dataclass
 class ListEntityPaymentMethodsResponse(BaseResponse):
-    request: ListEntityPaymentMethodsRequest
+    payment_methods: List[Details] = None
 
 
 class PrimeClient:
@@ -43,4 +44,4 @@ class PrimeClient:
 
         response = self.client.request("GET", path, query=query_params,
                                        allowed_status_codes=request.allowed_status_codes)
-        return ListEntityPaymentMethodsResponse(response.json(), request)
+        return ListEntityPaymentMethodsResponse(response.json())

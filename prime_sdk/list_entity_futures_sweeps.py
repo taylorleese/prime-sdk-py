@@ -18,6 +18,7 @@ from prime_sdk.base_response import BaseResponse
 from prime_sdk.client import Client
 from typing import List
 from prime_sdk.credentials import Credentials
+from prime_sdk.model import Sweep
 
 
 @dataclass
@@ -28,7 +29,8 @@ class ListEntityFuturesSweepsRequest:
 
 @dataclass
 class ListEntityFuturesSweepsResponse(BaseResponse):
-    request: ListEntityFuturesSweepsRequest
+    sweeps: List[Sweep] = None
+    auto_sweep: bool = None
 
 
 class PrimeClient:
@@ -38,4 +40,4 @@ class PrimeClient:
     def list_entity_futures_sweeps(self, request: ListEntityFuturesSweepsRequest) -> ListEntityFuturesSweepsResponse:
         path = f"/entities/{request.entity_id}/futures/sweeps"
         response = self.client.request("GET", path, allowed_status_codes=request.allowed_status_codes)
-        return ListEntityFuturesSweepsResponse(response.json(), request)
+        return ListEntityFuturesSweepsResponse(response.json())

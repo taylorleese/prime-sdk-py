@@ -17,8 +17,8 @@ from typing import Optional, List
 from prime_sdk.base_response import BaseResponse
 from prime_sdk.client import Client
 from prime_sdk.credentials import Credentials
-from prime_sdk.utils import PaginationParams, append_query_param, append_pagination_params
-
+from prime_sdk.utils import PaginationParams, append_query_param, append_pagination_params, Pagination
+from prime_sdk.model import Address
 
 @dataclass
 class GetAddressBookRequest:
@@ -31,7 +31,8 @@ class GetAddressBookRequest:
 
 @dataclass
 class GetAddressBookResponse(BaseResponse):
-    request: GetAddressBookRequest
+    addresses: List[Address] = None
+    pagination: Pagination = None
 
 
 class PrimeClient:
@@ -47,4 +48,4 @@ class PrimeClient:
 
         response = self.client.request("GET", path, query=query_params,
                                        allowed_status_codes=request.allowed_status_codes)
-        return GetAddressBookResponse(response.json(), request)
+        return GetAddressBookResponse(response.json())

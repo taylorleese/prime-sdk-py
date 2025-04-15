@@ -19,7 +19,8 @@ from prime_sdk.base_response import BaseResponse
 from prime_sdk.enums import OrderSide
 from prime_sdk.client import Client
 from prime_sdk.credentials import Credentials
-from prime_sdk.utils import PaginationParams, append_query_param, append_pagination_params
+from prime_sdk.utils import PaginationParams, append_query_param, append_pagination_params, Pagination
+from prime_sdk.model import Allocation
 
 
 @dataclass
@@ -35,7 +36,8 @@ class ListPortfolioAllocationsRequest:
 
 @dataclass
 class ListPortfolioAllocationsResponse(BaseResponse):
-    request: ListPortfolioAllocationsRequest
+    allocations: List[Allocation] = None
+    pagination: Pagination = None
 
 
 class PrimeClient:
@@ -57,4 +59,4 @@ class PrimeClient:
 
         response = self.client.request("GET", path, query=query_params,
                                        allowed_status_codes=request.allowed_status_codes)
-        return ListPortfolioAllocationsResponse(response.json(), request)
+        return ListPortfolioAllocationsResponse(response.json())

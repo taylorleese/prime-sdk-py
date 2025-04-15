@@ -17,6 +17,7 @@ from typing import List
 from prime_sdk.base_response import BaseResponse
 from prime_sdk.client import Client
 from prime_sdk.credentials import Credentials
+from prime_sdk.model import Allocation
 
 
 @dataclass
@@ -28,7 +29,7 @@ class GetAllocationByIdRequest:
 
 @dataclass
 class GetAllocationByIdResponse(BaseResponse):
-    request: GetAllocationByIdRequest
+    allocation: Allocation = None
 
 
 class PrimeClient:
@@ -38,4 +39,4 @@ class PrimeClient:
     def get_allocation_by_id(self, request: GetAllocationByIdRequest) -> GetAllocationByIdResponse:
         path = f"/portfolios/{request.portfolio_id}/allocations/{request.allocation_id}"
         response = self.client.request("GET", path, query=None, allowed_status_codes=request.allowed_status_codes)
-        return GetAllocationByIdResponse(response.json(), request)
+        return GetAllocationByIdResponse(response.json())

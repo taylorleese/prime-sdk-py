@@ -32,7 +32,16 @@ class CreateTransferRequest:
 
 @dataclass
 class CreateTransferResponse(BaseResponse):
-    request: CreateTransferRequest
+    activity_id: str = None
+    approval_url: str = None
+    symbol: str = None
+    amount: str = None
+    fee: str = None
+    destination_address: str = None
+    destination_type: str = None
+    source_address: str = None
+    source_type: str = None
+    transaction_id: str = None
 
 
 class PrimeClient:
@@ -43,4 +52,4 @@ class PrimeClient:
         path = f"/portfolios/{request.portfolio_id}/wallets/{request.wallet_id}/transfers"
         body = asdict(request)
         response = self.client.request("POST", path, body=body, allowed_status_codes=request.allowed_status_codes)
-        return CreateTransferResponse(response.json(), request)
+        return CreateTransferResponse(response.json())

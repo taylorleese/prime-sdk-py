@@ -17,6 +17,7 @@ from prime_sdk.base_response import BaseResponse
 from prime_sdk.client import Client
 from typing import Optional, List
 from prime_sdk.credentials import Credentials
+from prime_sdk.model import Blockchain
 
 
 @dataclass
@@ -46,7 +47,16 @@ class CreateWithdrawalRequest:
 
 @dataclass
 class CreateWithdrawalResponse(BaseResponse):
-    request: CreateWithdrawalRequest
+    activity_id: str = None
+    approval_url: str = None
+    symbol: str = None
+    amount: str = None
+    fee: str = None
+    destination_type: str = None
+    source_type: str = None
+    blockchain_destination: Blockchain = None
+    blockchain_source: Blockchain = None
+    transaction_id: str = None
 
 
 class PrimeClient:
@@ -67,4 +77,4 @@ class PrimeClient:
         body = {k: v for k, v in body.items() if v is not None}
 
         response = self.client.request("POST", path, body=body, allowed_status_codes=request.allowed_status_codes)
-        return CreateWithdrawalResponse(response.json(), request)
+        return CreateWithdrawalResponse(response.json())

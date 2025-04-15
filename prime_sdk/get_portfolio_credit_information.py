@@ -17,6 +17,7 @@ from prime_sdk.base_response import BaseResponse
 from prime_sdk.client import Client
 from typing import List
 from prime_sdk.credentials import Credentials
+from prime_sdk.model import PostTradeCredit
 
 
 @dataclass
@@ -27,7 +28,7 @@ class GetPortfolioCreditInformationRequest:
 
 @dataclass
 class GetPortfolioCreditInformationResponse(BaseResponse):
-    request: GetPortfolioCreditInformationRequest
+    post_trade_credit: PostTradeCredit = None
 
 
 class PrimeClient:
@@ -39,4 +40,4 @@ class PrimeClient:
             request: GetPortfolioCreditInformationRequest) -> GetPortfolioCreditInformationResponse:
         path = f"/portfolios/{request.portfolio_id}/credit"
         response = self.client.request("GET", path, query=None, allowed_status_codes=request.allowed_status_codes)
-        return GetPortfolioCreditInformationResponse(response.json(), request)
+        return GetPortfolioCreditInformationResponse(response.json())

@@ -19,6 +19,7 @@ from typing import List
 from prime_sdk.credentials import Credentials
 from prime_sdk.utils import append_query_param
 from prime_sdk.enums import WalletDepositType
+from prime_sdk.model import Instructions
 
 
 @dataclass
@@ -31,7 +32,7 @@ class GetWalletDepositInstructionsRequest:
 
 @dataclass
 class GetWalletDepositInstructionsResponse(BaseResponse):
-    request: GetWalletDepositInstructionsRequest
+    instructions: Instructions = None
 
 
 class PrimeClient:
@@ -47,4 +48,4 @@ class PrimeClient:
 
         response = self.client.request("GET", path, query=query_params,
                                        allowed_status_codes=request.allowed_status_codes)
-        return GetWalletDepositInstructionsResponse(response.json(), request)
+        return GetWalletDepositInstructionsResponse(response.json())

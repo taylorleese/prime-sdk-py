@@ -32,7 +32,7 @@ class AcceptQuoteRequest:
 
 @dataclass
 class AcceptQuoteResponse(BaseResponse):
-    request: AcceptQuoteRequest
+    order_id: str = None
 
 
 class PrimeClient:
@@ -43,4 +43,4 @@ class PrimeClient:
         path = f"/portfolios/{request.portfolio_id}/accept_quote"
         body = {k: v for k, v in asdict(request).items() if v is not None}
         response = self.client.request("POST", path, body=body, allowed_status_codes=request.allowed_status_codes)
-        return AcceptQuoteResponse(response.json(), request)
+        return AcceptQuoteResponse(response.json())

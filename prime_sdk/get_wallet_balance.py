@@ -17,6 +17,7 @@ from prime_sdk.base_response import BaseResponse
 from prime_sdk.client import Client
 from typing import List
 from prime_sdk.credentials import Credentials
+from prime_sdk.model import Balance
 
 
 @dataclass
@@ -28,7 +29,7 @@ class GetWalletBalanceRequest:
 
 @dataclass
 class GetWalletBalanceResponse(BaseResponse):
-    request: GetWalletBalanceRequest
+    balance: Balance = None
 
 
 class PrimeClient:
@@ -38,4 +39,4 @@ class PrimeClient:
     def get_wallet_balance(self, request: GetWalletBalanceRequest) -> GetWalletBalanceResponse:
         path = f"/portfolios/{request.portfolio_id}/wallets/{request.wallet_id}/balance"
         response = self.client.request("GET", path, query=None, allowed_status_codes=request.allowed_status_codes)
-        return GetWalletBalanceResponse(response.json(), request)
+        return GetWalletBalanceResponse(response.json())

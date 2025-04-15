@@ -45,7 +45,7 @@ class CreateOnchainTransactionRequest:
 
 @dataclass
 class CreateOnchainTransactionResponse(BaseResponse):
-    request: CreateOnchainTransactionRequest
+    transaction_id: str = None
 
 
 class PrimeClient:
@@ -56,4 +56,4 @@ class PrimeClient:
         path = f"/portfolios/{request.portfolio_id}/wallets/{request.wallet_id}/onchain_transaction"
         body = {k: v for k, v in asdict(request).items() if v is not None}
         response = self.client.request("POST", path, body=body, allowed_status_codes=request.allowed_status_codes)
-        return CreateOnchainTransactionResponse(response.json(), request)
+        return CreateOnchainTransactionResponse(response.json())

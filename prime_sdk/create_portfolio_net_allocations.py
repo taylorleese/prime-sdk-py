@@ -51,7 +51,11 @@ class CreatePortfolioNetAllocationsRequest:
 
 @dataclass
 class CreatePortfolioNetAllocationsResponse(BaseResponse):
-    request: CreatePortfolioNetAllocationsRequest
+    success: bool = None
+    netting_id: str = None
+    buy_allocation_id: str = None
+    sell_allocation_id: str = None
+    failure_reason: str = None
 
 
 class PrimeClient:
@@ -67,4 +71,4 @@ class PrimeClient:
         body['allocation_legs'] = [asdict(leg) for leg in request.allocation_legs]
 
         response = self.client.request("POST", path, body=body, allowed_status_codes=request.allowed_status_codes)
-        return CreatePortfolioNetAllocationsResponse(response.json(), request)
+        return CreatePortfolioNetAllocationsResponse(response.json())

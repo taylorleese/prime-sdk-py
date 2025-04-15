@@ -34,7 +34,11 @@ class CreateQuoteRequest:
 
 @dataclass
 class CreateQuoteResponse(BaseResponse):
-    request: CreateQuoteRequest
+    quote_id: str = None
+    expiration_time: str = None
+    best_price: str = None
+    order_total: str = None
+    price_inclusive_of_fees: str = None
 
 
 class PrimeClient:
@@ -45,4 +49,4 @@ class PrimeClient:
         path = f"/portfolios/{request.portfolio_id}/rfq"
         body = {k: v for k, v in asdict(request).items() if v is not None}
         response = self.client.request("POST", path, body=body, allowed_status_codes=request.allowed_status_codes)
-        return CreateQuoteResponse(response.json(), request)
+        return CreateQuoteResponse(response.json())

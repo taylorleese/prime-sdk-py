@@ -17,6 +17,7 @@ from prime_sdk.base_response import BaseResponse
 from prime_sdk.client import Client
 from typing import List
 from prime_sdk.credentials import Credentials
+from prime_sdk.model import Details
 
 
 @dataclass
@@ -28,7 +29,7 @@ class GetEntityPaymentMethodRequest:
 
 @dataclass
 class GetEntityPaymentMethodResponse(BaseResponse):
-    request: GetEntityPaymentMethodRequest
+    details: Details = None
 
 
 class PrimeClient:
@@ -38,4 +39,4 @@ class PrimeClient:
     def get_entity_payment_method(self, request: GetEntityPaymentMethodRequest) -> GetEntityPaymentMethodResponse:
         path = f"/entities/{request.entity_id}/payment-methods/{request.payment_method_id}"
         response = self.client.request("GET", path, query=None, allowed_status_codes=request.allowed_status_codes)
-        return GetEntityPaymentMethodResponse(response.json(), request)
+        return GetEntityPaymentMethodResponse(response.json())

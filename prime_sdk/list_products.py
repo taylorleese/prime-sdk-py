@@ -17,7 +17,8 @@ from typing import Optional, List
 from prime_sdk.base_response import BaseResponse
 from prime_sdk.client import Client
 from prime_sdk.credentials import Credentials
-from prime_sdk.utils import PaginationParams, append_pagination_params
+from prime_sdk.utils import PaginationParams, append_pagination_params, Pagination
+from prime_sdk.model import Product
 
 
 @dataclass
@@ -29,8 +30,8 @@ class ListProductsRequest:
 
 @dataclass
 class ListProductsResponse(BaseResponse):
-    request: ListProductsRequest
-
+    products: List[Product] = None
+    pagination: Pagination = None
 
 class PrimeClient:
     def __init__(self, credentials: Credentials):
@@ -42,4 +43,4 @@ class PrimeClient:
         query_params = append_pagination_params("", request.pagination)
         response = self.client.request("GET", path, query=query_params,
                                        allowed_status_codes=request.allowed_status_codes)
-        return ListProductsResponse(response.json(), request)
+        return ListProductsResponse(response.json())

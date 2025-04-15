@@ -31,7 +31,11 @@ class CreateWalletRequest:
 
 @dataclass
 class CreateWalletResponse(BaseResponse):
-    request: CreateWalletRequest
+    activity_id: str = None
+    name: str = None
+    symbol: str = None
+    wallet_type: str = None
+    network_family: str = None
 
 
 class PrimeClient:
@@ -42,4 +46,4 @@ class PrimeClient:
         path = f"/portfolios/{request.portfolio_id}/wallets"
         body = asdict(request)
         response = self.client.request("POST", path, body=body, allowed_status_codes=request.allowed_status_codes)
-        return CreateWalletResponse(response.json(), request)
+        return CreateWalletResponse(response.json())

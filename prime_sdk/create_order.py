@@ -43,7 +43,7 @@ class CreateOrderRequest:
 
 @dataclass
 class CreateOrderResponse(BaseResponse):
-    request: CreateOrderRequest
+    order_id: str = None
 
 
 class PrimeClient:
@@ -54,4 +54,4 @@ class PrimeClient:
         path = f"/portfolios/{request.portfolio_id}/order"
         body = {k: v for k, v in asdict(request).items() if v is not None}
         response = self.client.request("POST", path, body=body, allowed_status_codes=request.allowed_status_codes)
-        return CreateOrderResponse(response.json(), request)
+        return CreateOrderResponse(response.json())

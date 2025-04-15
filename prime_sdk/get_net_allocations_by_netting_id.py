@@ -17,6 +17,7 @@ from typing import List
 from prime_sdk.base_response import BaseResponse
 from prime_sdk.client import Client
 from prime_sdk.credentials import Credentials
+from prime_sdk.model import Allocation
 
 
 @dataclass
@@ -28,7 +29,7 @@ class GetNetAllocationsByNettingIdRequest:
 
 @dataclass
 class GetNetAllocationsByNettingIdResponse(BaseResponse):
-    request: GetNetAllocationsByNettingIdRequest
+    allocations: List[Allocation] = None
 
 
 class PrimeClient:
@@ -40,4 +41,4 @@ class PrimeClient:
             request: GetNetAllocationsByNettingIdRequest) -> GetNetAllocationsByNettingIdResponse:
         path = f"/portfolios/{request.portfolio_id}/allocations/net/{request.netting_id}"
         response = self.client.request("GET", path, query=None, allowed_status_codes=request.allowed_status_codes)
-        return GetNetAllocationsByNettingIdResponse(response.json(), request)
+        return GetNetAllocationsByNettingIdResponse(response.json())

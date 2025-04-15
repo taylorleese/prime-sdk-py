@@ -42,7 +42,23 @@ class CreateOrderPreviewRequest:
 
 @dataclass
 class CreateOrderPreviewResponse(BaseResponse):
-    request: CreateOrderPreviewRequest
+    portfolio_id: str = None
+    product_id: str = None
+    side: str = None
+    type: str = None
+    base_quantity: str = None
+    quote_value: str = None
+    limit_price: str = None
+    start_time: str = None
+    expiry_time: str = None
+    time_in_force: str = None
+    commission: str = None
+    slippage: str = None
+    best_bid: str = None
+    best_ask: str = None
+    average_filled_price: str = None
+    order_total: str = None
+    historical_pov: str = None
 
 
 class PrimeClient:
@@ -53,4 +69,4 @@ class PrimeClient:
         path = f"/portfolios/{request.portfolio_id}/order_preview"
         body = {k: v for k, v in asdict(request).items() if v is not None}
         response = self.client.request("POST", path, body=body, allowed_status_codes=request.allowed_status_codes)
-        return CreateOrderPreviewResponse(response.json(), request)
+        return CreateOrderPreviewResponse(response.json())

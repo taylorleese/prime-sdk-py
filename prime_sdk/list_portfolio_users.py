@@ -17,7 +17,8 @@ from typing import Optional, List
 from prime_sdk.base_response import BaseResponse
 from prime_sdk.client import Client
 from prime_sdk.credentials import Credentials
-from prime_sdk.utils import PaginationParams, append_pagination_params
+from prime_sdk.utils import PaginationParams, append_pagination_params, Pagination
+from prime_sdk.model import PortfolioUser
 
 
 @dataclass
@@ -29,7 +30,8 @@ class ListPortfolioUsersRequest:
 
 @dataclass
 class ListPortfolioUsersResponse(BaseResponse):
-    request: ListPortfolioUsersRequest
+    users: List[PortfolioUser] = None
+    pagination: Pagination = None
 
 
 class PrimeClient:
@@ -43,4 +45,4 @@ class PrimeClient:
 
         response = self.client.request("GET", path, query=query_params,
                                        allowed_status_codes=request.allowed_status_codes)
-        return ListPortfolioUsersResponse(response.json(), request)
+        return ListPortfolioUsersResponse(response.json())

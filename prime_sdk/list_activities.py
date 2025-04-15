@@ -18,7 +18,8 @@ from prime_sdk.client import Client
 from typing import Optional, List
 from datetime import datetime
 from prime_sdk.credentials import Credentials
-from prime_sdk.utils import PaginationParams, append_query_param, append_pagination_params
+from prime_sdk.utils import PaginationParams, append_query_param, append_pagination_params, Pagination
+from prime_sdk.model import Activity
 
 
 @dataclass
@@ -35,7 +36,8 @@ class ListActivitiesRequest:
 
 @dataclass
 class ListActivitiesResponse(BaseResponse):
-    request: ListActivitiesRequest
+    activities: List[Activity] = None
+    pagination: Pagination = None
 
 
 class PrimeClient:
@@ -64,4 +66,4 @@ class PrimeClient:
 
         response = self.client.request("GET", path, query=query_params,
                                        allowed_status_codes=request.allowed_status_codes)
-        return ListActivitiesResponse(response.json(), request)
+        return ListActivitiesResponse(response.json())

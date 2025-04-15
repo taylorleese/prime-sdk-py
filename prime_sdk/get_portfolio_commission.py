@@ -17,6 +17,7 @@ from prime_sdk.base_response import BaseResponse
 from prime_sdk.client import Client
 from typing import List
 from prime_sdk.credentials import Credentials
+from prime_sdk.model import Commission
 
 
 @dataclass
@@ -27,7 +28,7 @@ class GetPortfolioCommissionRequest:
 
 @dataclass
 class GetPortfolioCommissionResponse(BaseResponse):
-    request: GetPortfolioCommissionRequest
+    commission: Commission = None
 
 
 class PrimeClient:

@@ -18,7 +18,8 @@ from datetime import datetime
 from prime_sdk.base_response import BaseResponse
 from prime_sdk.client import Client
 from prime_sdk.credentials import Credentials
-from prime_sdk.utils import PaginationParams, append_query_param, append_pagination_params
+from prime_sdk.utils import PaginationParams, append_query_param, append_pagination_params, Pagination
+from prime_sdk.model import Transaction
 
 
 @dataclass
@@ -34,8 +35,8 @@ class ListPortfolioTransactionsRequest:
 
 @dataclass
 class ListPortfolioTransactionsResponse(BaseResponse):
-    request: ListPortfolioTransactionsRequest
-
+    transactions: List[Transaction] = None
+    pagination: Pagination = None
 
 class PrimeClient:
     def __init__(self, credentials: Credentials):
@@ -58,4 +59,4 @@ class PrimeClient:
 
         response = self.client.request("GET", path, query=query_params,
                                        allowed_status_codes=request.allowed_status_codes)
-        return ListPortfolioTransactionsResponse(response.json(), request)
+        return ListPortfolioTransactionsResponse(response.json())

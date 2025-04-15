@@ -19,6 +19,7 @@ from prime_sdk.client import Client
 from prime_sdk.credentials import Credentials
 from prime_sdk.enums import BalanceType
 from prime_sdk.utils import PaginationParams, append_query_param, append_pagination_params
+from prime_sdk.model import Balance, BalanceWithHolds
 
 
 @dataclass
@@ -32,7 +33,11 @@ class ListPortfolioBalancesRequest:
 
 @dataclass
 class ListPortfolioBalancesResponse(BaseResponse):
-    request: ListPortfolioBalancesRequest
+    balances: List[Balance] = None
+    type: str = None
+    trading_balances: BalanceWithHolds = None
+    vault_balances: BalanceWithHolds = None
+    prime_custody_balances: BalanceWithHolds = None
 
 
 class PrimeClient:

@@ -28,7 +28,7 @@ class CancelOrderRequest:
 
 @dataclass
 class CancelOrderResponse(BaseResponse):
-    request: CancelOrderRequest
+    id: str = None
 
 
 class PrimeClient:
@@ -39,4 +39,4 @@ class PrimeClient:
         path = f"/portfolios/{request.portfolio_id}/orders/{request.order_id}/cancel"
         body = asdict(request)
         response = self.client.request("POST", path, body=body, allowed_status_codes=request.allowed_status_codes)
-        return CancelOrderResponse(response.json(), request)
+        return CancelOrderResponse(response.json())

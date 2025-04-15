@@ -31,7 +31,8 @@ class ScheduleEntityFuturesSweepRequest:
 
 @dataclass
 class ScheduleEntityFuturesSweepResponse(BaseResponse):
-    request: ScheduleEntityFuturesSweepRequest
+    success: bool = None
+    request_id: str = None
 
 
 class PrimeClient:
@@ -45,4 +46,4 @@ class PrimeClient:
         query_params = append_query_param(query_params, 'currency', request.currency)
 
         response = self.client.request("POST", path, query=query_params, allowed_status_codes=request.allowed_status_codes)
-        return ScheduleEntityFuturesSweepResponse(response.json(), request)
+        return ScheduleEntityFuturesSweepResponse(response.json())

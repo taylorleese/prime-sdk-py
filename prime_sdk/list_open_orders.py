@@ -20,6 +20,7 @@ from datetime import datetime
 from prime_sdk.credentials import Credentials
 from prime_sdk.utils import append_query_param
 from prime_sdk.enums import OrderType, OrderSide
+from prime_sdk.model import Order
 
 
 @dataclass
@@ -36,7 +37,7 @@ class ListOpenOrdersRequest:
 
 @dataclass
 class ListOpenOrdersResponse(BaseResponse):
-    request: ListOpenOrdersRequest
+    orders: List[Order] = None
 
 
 class PrimeClient:

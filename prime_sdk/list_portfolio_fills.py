@@ -17,8 +17,9 @@ from dataclasses import dataclass
 from prime_sdk.base_response import BaseResponse
 from prime_sdk.client import Client
 from prime_sdk.credentials import Credentials
-from prime_sdk.utils import PaginationParams, append_pagination_params, append_query_param
+from prime_sdk.utils import PaginationParams, append_pagination_params, append_query_param, Pagination
 from typing import Optional, List
+from prime_sdk.model import Fill
 
 
 @dataclass
@@ -32,7 +33,8 @@ class ListPortfolioFillsRequest:
 
 @dataclass
 class ListPortfolioFillsResponse(BaseResponse):
-    request: ListPortfolioFillsRequest
+    fills: List[Fill] = None
+    pagination: Pagination = None
 
 
 class PrimeClient:
@@ -51,4 +53,4 @@ class PrimeClient:
 
         response = self.client.request("GET", path, query=query_params,
                                        allowed_status_codes=request.allowed_status_codes)
-        return ListPortfolioFillsResponse(response.json(), request)
+        return ListPortfolioFillsResponse(response.json())

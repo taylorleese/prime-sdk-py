@@ -17,6 +17,7 @@ from typing import List
 from prime_sdk.base_response import BaseResponse
 from prime_sdk.client import Client
 from prime_sdk.credentials import Credentials
+from prime_sdk.model import Portfolio
 
 
 @dataclass
@@ -26,7 +27,7 @@ class ListPortfoliosRequest:
 
 @dataclass
 class ListPortfoliosResponse(BaseResponse):
-    request: ListPortfoliosRequest
+    portfolios: List[Portfolio] = None
 
 
 class PrimeClient:
@@ -36,4 +37,4 @@ class PrimeClient:
     def list_portfolios(self, request: ListPortfoliosRequest) -> ListPortfoliosResponse:
         path = "/portfolios"
         response = self.client.request("GET", path, allowed_status_codes=request.allowed_status_codes)
-        return ListPortfoliosResponse(response.json(), request)
+        return ListPortfoliosResponse(response.json())

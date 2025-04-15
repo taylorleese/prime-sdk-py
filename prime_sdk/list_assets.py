@@ -17,7 +17,7 @@ from prime_sdk.base_response import BaseResponse
 from prime_sdk.client import Client
 from typing import List
 from prime_sdk.credentials import Credentials
-
+from prime_sdk.model import Asset
 
 @dataclass
 class ListAssetsRequest:
@@ -27,8 +27,8 @@ class ListAssetsRequest:
 
 @dataclass
 class ListAssetsResponse(BaseResponse):
-    request: ListAssetsRequest
-
+    assets: List[Asset] = None
+    
 
 class PrimeClient:
     def __init__(self, credentials: Credentials):
@@ -37,4 +37,4 @@ class PrimeClient:
     def list_assets(self, request: ListAssetsRequest) -> ListAssetsResponse:
         path = f"/entities/{request.entity_id}/assets"
         response = self.client.request("GET", path, query=None, allowed_status_codes=request.allowed_status_codes)
-        return ListAssetsResponse(response.json(), request)
+        return ListAssetsResponse(response.json())

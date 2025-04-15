@@ -15,8 +15,9 @@
 from dataclasses import dataclass
 from prime_sdk.base_response import BaseResponse
 from prime_sdk.client import Client
-from typing import Optional, List
+from typing import List
 from prime_sdk.credentials import Credentials
+from prime_sdk.model import AddressGroup
 
 
 @dataclass
@@ -27,7 +28,7 @@ class ListOnchainAddressGroupsRequest:
 
 @dataclass
 class ListOnchainAddressGroupsResponse(BaseResponse):
-    request: ListOnchainAddressGroupsRequest
+    address_groups: List[AddressGroup] = None
 
 
 class PrimeClient:
@@ -37,4 +38,4 @@ class PrimeClient:
     def list_onchain_address_groups(self, request: ListOnchainAddressGroupsRequest) -> ListOnchainAddressGroupsResponse:
         path = f"/portfolios/{request.portfolio_id}/onchain_address_groups"
         response = self.client.request("GET", path, allowed_status_codes=request.allowed_status_codes)
-        return ListOnchainAddressGroupsResponse(response.json(), request)
+        return ListOnchainAddressGroupsResponse(response.json())

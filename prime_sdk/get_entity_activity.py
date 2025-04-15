@@ -17,6 +17,7 @@ from prime_sdk.base_response import BaseResponse
 from prime_sdk.client import Client
 from typing import List
 from prime_sdk.credentials import Credentials
+from prime_sdk.model import Activity
 
 
 @dataclass
@@ -27,7 +28,7 @@ class GetEntityActivityRequest:
 
 @dataclass
 class GetEntityActivityResponse(BaseResponse):
-    request: GetEntityActivityRequest
+    activity: Activity = None
 
 
 class PrimeClient:
@@ -37,4 +38,4 @@ class PrimeClient:
     def get_entity_activity_by_activity_id(self, request: GetEntityActivityRequest) -> GetEntityActivityResponse:
         path = f"/activities/{request.activity_id}"
         response = self.client.request("GET", path, query=None, allowed_status_codes=request.allowed_status_codes)
-        return GetEntityActivityResponse(response.json(), request)
+        return GetEntityActivityResponse(response.json())

@@ -34,7 +34,13 @@ class CreateConversionRequest:
 
 @dataclass
 class CreateConversionResponse(BaseResponse):
-    request: CreateConversionRequest
+    activity_id: str = None
+    source_symbol: str = None
+    destination_symbol: str = None
+    amount: str = None
+    destination: str = None
+    source: str = None
+    transaction_id: str = None
 
 
 class PrimeClient:
@@ -45,4 +51,4 @@ class PrimeClient:
         path = f"/portfolios/{request.portfolio_id}/wallets/{request.wallet_id}/conversion"
         body = asdict(request)
         response = self.client.request("POST", path, body=body, allowed_status_codes=request.allowed_status_codes)
-        return CreateConversionResponse(response.json(), request)
+        return CreateConversionResponse(response.json())

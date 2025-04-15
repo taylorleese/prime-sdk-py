@@ -19,6 +19,7 @@ from prime_sdk.client import Client
 from typing import List, Optional
 from prime_sdk.credentials import Credentials
 from prime_sdk.utils import append_query_param
+from prime_sdk.model import Position
 
 
 @dataclass
@@ -30,7 +31,8 @@ class GetEntityPositionsRequest:
 
 @dataclass
 class GetEntityPositionsResponse(BaseResponse):
-    request: GetEntityPositionsRequest
+    positions: List[Position] = None
+    clearing_account_id: str = None
 
 
 class PrimeClient:
@@ -43,4 +45,4 @@ class PrimeClient:
         query_params = append_query_param("", 'product_id', request.product_id)
 
         response = self.client.request("GET", path, query=query_params, allowed_status_codes=request.allowed_status_codes)
-        return GetEntityPositionsResponse(response.json(), request)
+        return GetEntityPositionsResponse(response.json())

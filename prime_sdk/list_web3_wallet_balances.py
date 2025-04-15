@@ -17,8 +17,8 @@ from typing import Optional, List
 from prime_sdk.base_response import BaseResponse
 from prime_sdk.client import Client
 from prime_sdk.credentials import Credentials
-from prime_sdk.utils import PaginationParams, append_query_param, append_pagination_params
-
+from prime_sdk.utils import PaginationParams, append_query_param, append_pagination_params, Pagination
+from prime_sdk.model import OnchainBalance, DefiBalance
 
 @dataclass
 class ListWeb3WalletBalancesRequest:
@@ -31,7 +31,9 @@ class ListWeb3WalletBalancesRequest:
 
 @dataclass
 class ListWeb3WalletBalancesResponse(BaseResponse):
-    request: ListWeb3WalletBalancesRequest
+    balances: List[OnchainBalance] = None
+    pagination: Pagination = None
+    defi_balances: List[DefiBalance] = None
 
 
 class PrimeClient:

@@ -19,9 +19,9 @@ from typing import Optional, List
 from datetime import datetime
 
 from prime_sdk.credentials import Credentials
-from prime_sdk.utils import PaginationParams, append_query_param, append_pagination_params
+from prime_sdk.utils import PaginationParams, append_query_param, append_pagination_params, Pagination
 from prime_sdk.enums import OrderSide, OrderType
-
+from prime_sdk.model import Order
 
 @dataclass
 class ListOrdersRequest:
@@ -38,7 +38,8 @@ class ListOrdersRequest:
 
 @dataclass
 class ListOrdersResponse(BaseResponse):
-    request: ListOrdersRequest
+    orders: List[Order] = None
+    pagination: Pagination = None
 
 
 class PrimeClient:
@@ -61,4 +62,4 @@ class PrimeClient:
         query_params = append_pagination_params(query_params, request.pagination)
 
         response = self.client.request("GET", path, query=query_params, allowed_status_codes=request.allowed_status_codes)
-        return ListOrdersResponse(response.json(), request)
+        return ListOrdersResponse(response.json())

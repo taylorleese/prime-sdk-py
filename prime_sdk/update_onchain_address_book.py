@@ -29,7 +29,9 @@ class UpdateOnchainAddressBookRequest:
 
 @dataclass
 class UpdateOnchainAddressBookResponse(BaseResponse):
-    request: UpdateOnchainAddressBookRequest
+    activity_type: str = None
+    num_approvals_remaining: int = None
+    activity_id: str = None
 
 
 class PrimeClient:

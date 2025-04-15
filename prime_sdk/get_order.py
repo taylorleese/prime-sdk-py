@@ -17,6 +17,7 @@ from prime_sdk.base_response import BaseResponse
 from prime_sdk.client import Client
 from typing import List
 from prime_sdk.credentials import Credentials
+from prime_sdk.model import Order
 
 
 @dataclass
@@ -28,7 +29,7 @@ class GetOrderRequest:
 
 @dataclass
 class GetOrderResponse(BaseResponse):
-    request: GetOrderRequest
+    order: Order = None
 
 
 class PrimeClient:
@@ -38,4 +39,4 @@ class PrimeClient:
     def get_order(self, request: GetOrderRequest) -> GetOrderResponse:
         path = f"/portfolios/{request.portfolio_id}/orders/{request.order_id}"
         response = self.client.request("GET", path, query=None, allowed_status_codes=request.allowed_status_codes)
-        return GetOrderResponse(response.json(), request)
+        return GetOrderResponse(response.json())

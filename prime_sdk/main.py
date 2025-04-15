@@ -13,19 +13,19 @@
 #  limitations under the License.
 
 from prime_sdk.credentials import Credentials
-from prime_sdk.list_products import PrimeClient, ListProductsRequest
+from prime_sdk.list_portfolios import PrimeClient, ListPortfoliosRequest
 
 
 def main():
     credentials = Credentials.from_env("PRIME_CREDENTIALS")
     prime_client = PrimeClient(credentials)
 
-    request = ListProductsRequest(portfolio_id="314dbd76-4459-41cd-ba9a-dccdd86b44e2")
+    request = ListPortfoliosRequest()
     try:
-        response = prime_client.list_products(request)
+        response = prime_client.list_portfolios(request)
         print(response)
     except Exception as e:
-        print(f"failed to list users: {e}")
+        print(f"failed to list portfolios: {e}")
 
 
 if __name__ == "__main__":

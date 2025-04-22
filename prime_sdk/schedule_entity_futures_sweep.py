@@ -12,13 +12,12 @@
 # See the License for the specific language governing permissions and
 #  limitations under the License.
 
-from dataclasses import dataclass
+from dataclasses import dataclass, asdict
 
 from prime_sdk.base_response import BaseResponse
 from prime_sdk.client import Client
 from typing import List, Optional
 from prime_sdk.credentials import Credentials
-from prime_sdk.utils import append_query_param
 
 
 @dataclass
@@ -41,9 +40,6 @@ class PrimeClient:
         
     def schedule_entity_futures_sweep(self, request: ScheduleEntityFuturesSweepRequest) -> ScheduleEntityFuturesSweepResponse:
         path = f"/entities/{request.entity_id}/futures/sweeps"
-
-        query_params = append_query_param("", 'amount', request.amount)
-        query_params = append_query_param(query_params, 'currency', request.currency)
-
-        response = self.client.request("POST", path, query=query_params, allowed_status_codes=request.allowed_status_codes)
+        body = {k: v for k, v in asdict(request).items() if v is not None}
+        response = self.client.request("POST", path, body=body, allowed_status_codes=request.allowed_status_codes)
         return ScheduleEntityFuturesSweepResponse(response.json())

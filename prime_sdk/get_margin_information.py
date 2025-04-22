@@ -30,7 +30,6 @@ class GetMarginInformationRequest:
 class GetMarginInformationResponse(BaseResponse):
     margin_information: MarginInformation = None
     
-    
 
 class PrimeMarginClient:
     def __init__(self, credentials: Credentials):
@@ -38,10 +37,5 @@ class PrimeMarginClient:
 
     def get_margin_information(self, request: GetMarginInformationRequest) -> GetMarginInformationResponse:
         path = f"/entities/{request.entity_id}/margin"
-        
-        response = self.client.request(
-            "GET",
-            path,
-            allowed_status_codes=request.allowed_status_codes,
-        )
+        response = self.client.request("GET", path, allowed_status_codes=request.allowed_status_codes)
         return GetMarginInformationResponse(response.json())

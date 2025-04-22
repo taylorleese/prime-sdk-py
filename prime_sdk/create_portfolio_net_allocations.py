@@ -23,18 +23,9 @@ from warnings import warn
 
 @dataclass
 class AllocationLeg:
-    leg_id: Optional[str] = None
     allocation_leg_id: str
     destination_portfolio_id: str
     amount: str
-    allowed_status_codes: Optional[List[int]] = None
-
-    def __post_init__(self):
-        if self.leg_id:
-            warn("The 'leg_id' field is deprecated and will be removed in a future version. Use 'allocation_leg_id' instead.", DeprecationWarning)
-            self.allocation_leg_id = self.leg_id
-        else:
-            self.leg_id = self.allocation_leg_id
 
 
 @dataclass
@@ -62,13 +53,12 @@ class PrimeClient:
     def __init__(self, credentials: Credentials):
         self.client = Client(credentials)
 
-    def create_portfolio_net_allocations(
-            self,
-            request: CreatePortfolioNetAllocationsRequest) -> CreatePortfolioNetAllocationsResponse:
+    def create_portfolio_net_allocations(self, request: CreatePortfolioNetAllocationsRequest) -> CreatePortfolioNetAllocationsResponse:
         path = "/allocations/net"
 
-        body = asdict(request)
-        body['allocation_legs'] = [asdict(leg) for leg in request.allocation_legs]
+        body = {k: v for k, v in asdict(request).items() if v is not None}
+        if request.allocation_legs:
+            body["allocation_legs"] = [asdict(leg) for leg in request.allocation_legs]
 
         response = self.client.request("POST", path, body=body, allowed_status_codes=request.allowed_status_codes)
         return CreatePortfolioNetAllocationsResponse(response.json())

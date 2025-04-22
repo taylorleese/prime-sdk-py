@@ -50,6 +50,6 @@ class PrimeClient:
         
     def create_transfer(self, request: CreateTransferRequest) -> CreateTransferResponse:
         path = f"/portfolios/{request.portfolio_id}/wallets/{request.wallet_id}/transfers"
-        body = asdict(request)
+        body = {k: v for k, v in asdict(request).items() if v is not None}
         response = self.client.request("POST", path, body=body, allowed_status_codes=request.allowed_status_codes)
         return CreateTransferResponse(response.json())

@@ -46,7 +46,6 @@ class PrimeClient:
             self,
             request: ListPortfolioTransactionsRequest) -> ListPortfolioTransactionsResponse:
         path = f"/portfolios/{request.portfolio_id}/transactions"
-
         query_params = append_query_param("", 'symbols', request.symbols)
         query_params = append_query_param(query_params, 'types', request.types)
 
@@ -56,7 +55,5 @@ class PrimeClient:
             query_params = append_query_param(query_params, 'end_time', request.end.isoformat() + 'Z')
 
         query_params = append_pagination_params(query_params, request.pagination)
-
-        response = self.client.request("GET", path, query=query_params,
-                                       allowed_status_codes=request.allowed_status_codes)
+        response = self.client.request("GET", path, query=query_params, allowed_status_codes=request.allowed_status_codes)
         return ListPortfolioTransactionsResponse(response.json())

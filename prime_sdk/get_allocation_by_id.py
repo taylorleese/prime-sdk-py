@@ -38,5 +38,5 @@ class PrimeClient:
         
     def get_allocation_by_id(self, request: GetAllocationByIdRequest) -> GetAllocationByIdResponse:
         path = f"/portfolios/{request.portfolio_id}/allocations/{request.allocation_id}"
-        response = self.client.request("GET", path, query=None, allowed_status_codes=request.allowed_status_codes)
+        response = self.client.request("GET", path, allowed_status_codes=request.allowed_status_codes)
         return GetAllocationByIdResponse(response.json())

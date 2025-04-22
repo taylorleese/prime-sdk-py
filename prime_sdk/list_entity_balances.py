@@ -32,7 +32,7 @@ class ListEntityBalancesRequest:
 
 
 @dataclass
-class GetEntityBalanceResponse(BaseResponse):
+class ListEntityBalancesResponse(BaseResponse):
     balances: List[Balance] = None
     pagination: Pagination = None
 
@@ -41,15 +41,10 @@ class PrimeMarginClient:
     def __init__(self, credentials: Credentials):
         self.client = Client(credentials)
 
-    def get_entity_balance(self, request: GetEntityBalanceRequest) -> GetEntityBalanceResponse:
+    def list_entity_balances(self, request: ListEntityBalancesRequest) -> ListEntityBalancesResponse:
         path = f"/entities/{request.entity_id}/balances"
         query_params = append_query_param("", "symbols", request.symbols)
         query_params = append_query_param(query_params, "balance_type", request.balance_type)
 
-        response = self.client.request(
-            "GET",
-            path,
-            query=query_params,
-            allowed_status_codes=request.allowed_status_codes,
-        )
-        return GetEntityBalanceResponse(response.json())
+        response = self.client.request("GET", path, query=query_params, allowed_status_codes=request.allowed_status_codes)
+        return ListEntityBalancesResponse(response.json())

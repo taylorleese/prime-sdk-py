@@ -66,15 +66,13 @@ class PrimeClient:
     def create_withdrawal(self, request: CreateWithdrawalRequest) -> CreateWithdrawalResponse:
         path = f"/portfolios/{request.portfolio_id}/wallets/{request.wallet_id}/withdrawals"
 
-        body = asdict(request)
+        body = {k: v for k, v in asdict(request).items() if v is not None}
 
         if request.payment_method:
-            body['payment_method'] = asdict(request.payment_method)
+            body["payment_method"] = asdict(request.payment_method)
 
         if request.blockchain_address:
-            body['blockchain_address'] = {k: v for k, v in asdict(request.blockchain_address).items() if v is not None}
-
-        body = {k: v for k, v in body.items() if v is not None}
+            body["blockchain_address"] = asdict(request.blockchain_address)
 
         response = self.client.request("POST", path, body=body, allowed_status_codes=request.allowed_status_codes)
         return CreateWithdrawalResponse(response.json())

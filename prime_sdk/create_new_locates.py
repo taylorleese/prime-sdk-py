@@ -23,8 +23,8 @@ from prime_sdk.credentials import Credentials
 class CreateNewLocateRequest:
     portfolio_id: str
     symbol: str
-    conversion_date: str
     amount: str
+    locate_date: str
     allowed_status_codes: Optional[List[int]] = None
 
 
@@ -39,16 +39,6 @@ class PrimeMarginClient:
 
     def create_new_locate(self, request: CreateNewLocateRequest) -> CreateNewLocateResponse:
         path = f"/portfolios/{request.portfolio_id}/locates"
-
         body = {k: v for k, v in asdict(request).items() if v is not None}
-
-        try:
-            response = self.client.request(
-                "POST",
-                path,
-                body=body,
-                allowed_status_codes=request.allowed_status_codes,
-            )
-            return CreateNewLocateResponse(response.json())
-        except Exception as e:
-            raise
+        response = self.client.request("POST", path, body=body, allowed_status_codes=request.allowed_status_codes)
+        return CreateNewLocateResponse(response.json())

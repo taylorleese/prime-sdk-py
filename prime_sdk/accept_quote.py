@@ -27,6 +27,7 @@ class AcceptQuoteRequest:
     side: OrderSide
     client_order_id: str
     quote_id: str
+    settl_currency: Optional[str] = None
     allowed_status_codes: Optional[List[int]] = None
 
 

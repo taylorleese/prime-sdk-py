@@ -60,13 +60,12 @@ class PrimeClient:
     def __init__(self, credentials: Credentials):
         self.client = Client(credentials)
 
-    def create_portfolio_allocations(
-            self,
-            request: CreatePortfolioAllocationsRequest) -> CreatePortfolioAllocationsResponse:
+    def create_portfolio_allocations(self, request: CreatePortfolioAllocationsRequest) -> CreatePortfolioAllocationsResponse:
         path = "/allocations"
 
-        body = asdict(request)
-        body['allocation_legs'] = [asdict(leg) for leg in request.allocation_legs]
+        body = {k: v for k, v in asdict(request).items() if v is not None}
+        if request.allocation_legs:
+            body["allocation_legs"] = [asdict(leg) for leg in request.allocation_legs]
 
         response = self.client.request("POST", path, body=body, allowed_status_codes=request.allowed_status_codes)
-        return CreatePortfolioAllocationsResponse(response.json())
+        return CreatePortfolioAllocationsResponse(response.json(), request)

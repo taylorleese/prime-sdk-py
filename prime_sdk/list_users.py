@@ -41,6 +41,5 @@ class PrimeClient:
     def list_users(self, request: ListUsersRequest) -> ListUsersResponse:
         path = f"/entities/{request.entity_id}/users"
         query_params = append_pagination_params("", request.pagination)
-        response = self.client.request("GET", path, query=query_params,
-                                       allowed_status_codes=request.allowed_status_codes)
+        response = self.client.request("GET", path, query=query_params, allowed_status_codes=request.allowed_status_codes)
         return ListUsersResponse(response.json())

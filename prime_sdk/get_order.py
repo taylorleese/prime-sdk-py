@@ -38,5 +38,5 @@ class PrimeClient:
         
     def get_order(self, request: GetOrderRequest) -> GetOrderResponse:
         path = f"/portfolios/{request.portfolio_id}/orders/{request.order_id}"
-        response = self.client.request("GET", path, query=None, allowed_status_codes=request.allowed_status_codes)
+        response = self.client.request("GET", path, allowed_status_codes=request.allowed_status_codes)
         return GetOrderResponse(response.json())

@@ -42,12 +42,9 @@ class PrimeClient:
 
     def list_invoices(self, request: ListInvoicesRequest) -> ListInvoicesResponse:
         path = f"/entities/{request.entity_id}/invoices"
-
         query_params = append_query_param("", 'states', request.states)
         query_params = append_query_param(query_params, 'billing_year', request.billing_year)
         query_params = append_query_param(query_params, 'billing_month', request.billing_month)
         query_params = append_pagination_params(query_params, request.pagination)
-
-        response = self.client.request("GET", path, query=query_params,
-                                       allowed_status_codes=request.allowed_status_codes)
+        response = self.client.request("GET", path, query=query_params, allowed_status_codes=request.allowed_status_codes)
         return ListInvoicesResponse(response.json())

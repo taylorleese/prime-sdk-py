@@ -40,11 +40,5 @@ class PrimeMarginClient:
     def get_portfolio_withdrawal_power(self, request: GetPortfolioWithdrawalPowerRequest) -> GetPortfolioWithdrawalPowerResponse:
         path = f"/portfolios/{request.portfolio_id}/withdrawal_power"
         query_params = append_query_param("", "symbol", request.symbol)
-
-        response = self.client.request(
-            "GET",
-            path,
-            query=query_params,
-            allowed_status_codes=request.allowed_status_codes,
-        )
+        response = self.client.request("GET", path, query=query_params, allowed_status_codes=request.allowed_status_codes)
         return GetPortfolioWithdrawalPowerResponse(response.json())

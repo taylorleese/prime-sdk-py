@@ -38,5 +38,5 @@ class PrimeClient:
         
     def get_transaction(self, request: GetTransactionRequest) -> GetTransactionResponse:
         path = f"/portfolios/{request.portfolio_id}/transactions/{request.transaction_id}"
-        response = self.client.request("GET", path, query=None, allowed_status_codes=request.allowed_status_codes)
+        response = self.client.request("GET", path, allowed_status_codes=request.allowed_status_codes)
         return GetTransactionResponse(response.json())

@@ -49,6 +49,6 @@ class PrimeClient:
         
     def create_conversion(self, request: CreateConversionRequest) -> CreateConversionResponse:
         path = f"/portfolios/{request.portfolio_id}/wallets/{request.wallet_id}/conversion"
-        body = asdict(request)
+        body = {k: v for k, v in asdict(request).items() if v is not None}
         response = self.client.request("POST", path, body=body, allowed_status_codes=request.allowed_status_codes)
         return CreateConversionResponse(response.json())

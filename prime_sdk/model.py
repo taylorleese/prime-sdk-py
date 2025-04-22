@@ -87,7 +87,6 @@ class AssetNetwork:
     network_link: str
 
 
-
 @dataclass
 class Asset:
     name: str
@@ -139,6 +138,7 @@ class Activity:
     created_at: str = None
     updated_at: str = None
     hierarchy_type: str = None
+
 
 @dataclass
 class ActivityResponse:
@@ -433,6 +433,7 @@ class RequestedAmount:
     currency: str
     amount: str
 
+
 @dataclass
 class Sweeps:
     id: str
@@ -453,6 +454,7 @@ class InvoiceItem:
     average_auc: float
     total: float
 
+
 @dataclass
 class Invoices:
     id: str
@@ -466,6 +468,7 @@ class Invoices:
     invoice_items: List[InvoiceItem]
 
 
+@dataclass
 class Fill:
     id: str
     order_id: str
@@ -491,6 +494,7 @@ class RfqProductDetails:
     tradable: bool
     min_notional_size: str
     max_notional_size: str
+
 
 @dataclass
 class Product:
@@ -711,12 +715,14 @@ class Position:
     reference: Reference
 
 
+@dataclass
 class MarginSummaryRecord:
     conversion_datetime: str
     conversion_date: str
     margin_summary: MarginSummary
 
 
+@dataclass
 class Balance:
     symbol: str
     long_amount: str
@@ -788,4 +794,3 @@ class PostTradeCredit:
 class Fee:
     symbol: str
     fee: str
-

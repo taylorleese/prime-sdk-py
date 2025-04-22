@@ -62,6 +62,5 @@ class PrimeClient:
                 'end_date',
                 request.end_date.isoformat() + 'Z')
 
-        response = self.client.request("GET", path, query=query_params,
-                                       allowed_status_codes=request.allowed_status_codes)
+        response = self.client.request("GET", path, query=query_params, allowed_status_codes=request.allowed_status_codes)
         return ListOpenOrdersResponse(response.json(), request)

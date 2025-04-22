@@ -41,15 +41,8 @@ class PrimeMarginClient:
 
     def list_interest_accruals_for_portfolio(self, request: ListInterestAccrualsForPortfolioRequest) -> ListInterestAccrualsForPortfolioResponse:
         path = f"/portfolios/{request.portfolio_id}/accruals"
-
         query_params = append_query_param("", "portfolio_id", request.portfolio_id)
         query_params = append_query_param(query_params, "start_date", request.start_date)
         query_params = append_query_param(query_params, "end_date", request.end_date)
-        
-        response = self.client.request(
-            "GET",
-            path,
-            query=query_params,
-            allowed_status_codes=request.allowed_status_codes,
-        )
+        response = self.client.request("GET", path, query=query_params, allowed_status_codes=request.allowed_status_codes)
         return ListInterestAccrualsForPortfolioResponse(response.json())

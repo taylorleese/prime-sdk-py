@@ -35,9 +35,7 @@ class PrimeClient:
     def __init__(self, credentials: Credentials):
         self.client = Client(credentials)
 
-    def get_portfolio_credit_information(
-            self,
-            request: GetPortfolioCreditInformationRequest) -> GetPortfolioCreditInformationResponse:
+    def get_portfolio_credit_information(self, request: GetPortfolioCreditInformationRequest) -> GetPortfolioCreditInformationResponse:
         path = f"/portfolios/{request.portfolio_id}/credit"
         response = self.client.request("GET", path, allowed_status_codes=request.allowed_status_codes)
         return GetPortfolioCreditInformationResponse(response.json())

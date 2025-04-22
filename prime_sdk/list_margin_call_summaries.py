@@ -40,14 +40,7 @@ class PrimeMarginClient:
 
     def list_margin_call_summaries(self, request: ListMarginCallSummariesRequest) -> ListMarginCallSummariesResponse:
         path = f"/entities/{request.entity_id}/margin_summaries"
-
         query_params = append_query_param("", "start_date", request.start_date)
         query_params = append_query_param(query_params, "end_date", request.end_date)
-        
-        response = self.client.request(
-            "GET",
-            path,
-            query=query_params,
-            allowed_status_codes=request.allowed_status_codes,
-        )
+        response = self.client.request("GET", path, query=query_params, allowed_status_codes=request.allowed_status_codes)
         return ListMarginCallSummariesResponse(response.json())

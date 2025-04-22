@@ -39,13 +39,8 @@ class PrimeClient:
     def __init__(self, credentials: Credentials):
         self.client = Client(credentials)
 
-    def get_wallet_deposit_instructions(
-            self,
-            request: GetWalletDepositInstructionsRequest) -> GetWalletDepositInstructionsResponse:
+    def get_wallet_deposit_instructions(self, request: GetWalletDepositInstructionsRequest) -> GetWalletDepositInstructionsResponse:
         path = f"/portfolios/{request.portfolio_id}/wallets/{request.wallet_id}/deposit_instructions"
-
         query_params = append_query_param("", 'deposit_type', request.deposit_type)
-
-        response = self.client.request("GET", path, query=query_params,
-                                       allowed_status_codes=request.allowed_status_codes)
+        response = self.client.request("GET", path, query=query_params, allowed_status_codes=request.allowed_status_codes)
         return GetWalletDepositInstructionsResponse(response.json())

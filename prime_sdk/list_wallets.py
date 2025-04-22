@@ -49,6 +49,5 @@ class PrimeClient:
         query_params = append_query_param(query_params, 'type', request.type)
         query_params = append_pagination_params(query_params, request.pagination)
 
-        response = self.client.request("GET", path, query=query_params,
-                                       allowed_status_codes=request.allowed_status_codes)
+        response = self.client.request("GET", path, query=query_params, allowed_status_codes=request.allowed_status_codes)
         return ListWalletsResponse(response.json())

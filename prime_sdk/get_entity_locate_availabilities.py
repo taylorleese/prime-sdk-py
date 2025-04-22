@@ -13,37 +13,38 @@
 #  limitations under the License.
 
 from dataclasses import dataclass
-
+from typing import Optional, List
 from prime_sdk.base_response import BaseResponse
 from prime_sdk.client import Client
-from typing import List, Optional
 from prime_sdk.credentials import Credentials
+from prime_sdk.model import LocateAvailability
+from prime_sdk.utils import append_query_param
 
 
 @dataclass
-class GetEntityFcmBalanceRequest:
+class GetEntityLocateAvailabilitiesRequest:
     entity_id: str
+    locate_date: Optional[str] = None
     allowed_status_codes: Optional[List[int]] = None
 
 
 @dataclass
-class GetEntityFcmBalanceResponse(BaseResponse):
-    portfolio_id: str = None
-    cfm_usd_balance: str = None
-    unrealized_pnl: str = None
-    daily_realized_pnl: str = None
-    excess_liquidity: str = None
-    futures_buying_power: str = None
-    initial_margin: str = None
-    maintenance_margin: str = None
-    clearing_account_id: str = None    
+class GetEntityLocateAvailabilitiesResponse(BaseResponse):
+    locates: List[LocateAvailability] = None
 
 
-class PrimeClient:
+class PrimeMarginClient:
     def __init__(self, credentials: Credentials):
         self.client = Client(credentials)
-        
-    def get_entity_fcm_balance(self, request: GetEntityFcmBalanceRequest) -> GetEntityFcmBalanceResponse:
-        path = f"/entities/{request.entity_id}/futures/balance_summary"
-        response = self.client.request("GET", path, allowed_status_codes=request.allowed_status_codes)
-        return GetEntityFcmBalanceResponse(response.json())
+
+    def get_entity_locate_availabilities(self, request: GetEntityLocateAvailabilitiesRequest) -> GetEntityLocateAvailabilitiesResponse:
+        path = f"/entities/{request.entity_id}/locates_availability"
+        query_params = append_query_param("", "locate_date", request.locate_date)
+
+        response = self.client.request(
+            "GET",
+            path,
+            query=query_params,
+            allowed_status_codes=request.allowed_status_codes,
+        )
+        return GetEntityLocateAvailabilitiesResponse(response.json())

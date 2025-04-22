@@ -15,7 +15,7 @@
 from dataclasses import dataclass, asdict
 from prime_sdk.base_response import BaseResponse
 from prime_sdk.client import Client
-from typing import List
+from typing import List, Optional
 from prime_sdk.credentials import Credentials
 from prime_sdk.model import AddressGroup
 
@@ -24,7 +24,7 @@ from prime_sdk.model import AddressGroup
 class UpdateOnchainAddressBookRequest:
     portfolio_id: str
     address_group: AddressGroup
-    allowed_status_codes: List[int] = None
+    allowed_status_codes: Optional[List[int]] = None
 
 
 @dataclass

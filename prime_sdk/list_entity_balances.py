@@ -1,4 +1,4 @@
-# Copyright 2024-present Coinbase Global, Inc.
+# Copyright 2025-present Coinbase Global, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -17,30 +17,39 @@ from typing import Optional, List
 from prime_sdk.base_response import BaseResponse
 from prime_sdk.client import Client
 from prime_sdk.credentials import Credentials
-from prime_sdk.utils import PaginationParams, append_pagination_params, Pagination
-from prime_sdk.model import User
+from prime_sdk.model import Balance
+from prime_sdk.utils import append_query_param, Pagination, PaginationParams
+from prime_sdk.enums import AggregationType
 
 
 @dataclass
-class ListUsersRequest:
+class ListEntityBalancesRequest:
     entity_id: str
+    symbols: Optional[List[str]] = None
     pagination: Optional[PaginationParams] = None
+    aggregation_type: Optional[AggregationType] = None
     allowed_status_codes: Optional[List[int]] = None
 
 
 @dataclass
-class ListUsersResponse(BaseResponse):
-    users: List[User] = None
+class GetEntityBalanceResponse(BaseResponse):
+    balances: List[Balance] = None
     pagination: Pagination = None
 
 
-class PrimeClient:
+class PrimeMarginClient:
     def __init__(self, credentials: Credentials):
         self.client = Client(credentials)
 
-    def list_users(self, request: ListUsersRequest) -> ListUsersResponse:
-        path = f"/entities/{request.entity_id}/users"
-        query_params = append_pagination_params("", request.pagination)
-        response = self.client.request("GET", path, query=query_params,
-                                       allowed_status_codes=request.allowed_status_codes)
-        return ListUsersResponse(response.json())
+    def get_entity_balance(self, request: GetEntityBalanceRequest) -> GetEntityBalanceResponse:
+        path = f"/entities/{request.entity_id}/balances"
+        query_params = append_query_param("", "symbols", request.symbols)
+        query_params = append_query_param(query_params, "balance_type", request.balance_type)
+
+        response = self.client.request(
+            "GET",
+            path,
+            query=query_params,
+            allowed_status_codes=request.allowed_status_codes,
+        )
+        return GetEntityBalanceResponse(response.json())

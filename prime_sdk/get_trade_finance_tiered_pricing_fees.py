@@ -12,41 +12,35 @@
 # See the License for the specific language governing permissions and
 #  limitations under the License.
 
-from dataclasses import dataclass, asdict
+from dataclasses import dataclass
+from typing import Optional, List
 from prime_sdk.base_response import BaseResponse
 from prime_sdk.client import Client
-from typing import Optional, List
 from prime_sdk.credentials import Credentials
-from prime_sdk.enums import OrderSide
+from prime_sdk.model import Fee
+from prime_sdk.utils import append_query_param
 
 
 @dataclass
-class CreateQuoteRequest:
+class GetTradeFinanceTieredPricingFeesRequest:
     portfolio_id: str
-    product_id: str
-    side: OrderSide
-    client_quote_id: str
-    base_quantity: str
-    quote_value: Optional[str] = None
-    limit_price: Optional[str] = None
+    effective_at: Optional[str] = None
     allowed_status_codes: Optional[List[int]] = None
 
 
 @dataclass
-class CreateQuoteResponse(BaseResponse):
-    quote_id: str = None
-    expiration_time: str = None
-    best_price: str = None
-    order_total: str = None
-    price_inclusive_of_fees: str = None
+class GetTradeFinanceTieredPricingFeesResponse(BaseResponse):
+    fees: List[Fee] = None
 
 
-class PrimeClient:
+class PrimeTradeFinanceClient:
     def __init__(self, credentials: Credentials):
         self.client = Client(credentials)
+
+    def get_trade_finance_tiered_pricing_fees(self, request: GetTradeFinanceTieredPricingFeesRequest) -> GetTradeFinanceTieredPricingFeesResponse:
+        path = f"/portfolios/{request.portfolio_id}/tf_tiered_fees"
         
-    def create_quote(self, request: CreateQuoteRequest) -> CreateQuoteResponse:
-        path = f"/portfolios/{request.portfolio_id}/rfq"
-        body = {k: v for k, v in asdict(request).items() if v is not None}
-        response = self.client.request("POST", path, body=body, allowed_status_codes=request.allowed_status_codes)
-        return CreateQuoteResponse(response.json())
+        query_params = append_query_param("", "effective_at", request.effective_at)
+
+        response = self.client.request("GET", path, query=query_params, allowed_status_codes=request.allowed_status_codes)
+        return GetTradeFinanceTieredPricingFeesResponse(response.json())

@@ -32,7 +32,7 @@ class ListOpenOrdersRequest:
     order_side: Optional[OrderSide] = None
     start_date: datetime = None
     end_date: Optional[datetime] = None
-    allowed_status_codes: List[int] = None
+    allowed_status_codes: Optional[List[int]] = None
 
 
 @dataclass

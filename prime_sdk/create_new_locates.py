@@ -1,4 +1,4 @@
-# Copyright 2024-present Coinbase Global, Inc.
+# Copyright 2025-present Coinbase Global, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -13,30 +13,42 @@
 #  limitations under the License.
 
 from dataclasses import dataclass, asdict
+from typing import Optional, List
 from prime_sdk.base_response import BaseResponse
 from prime_sdk.client import Client
-from typing import List, Optional
 from prime_sdk.credentials import Credentials
 
 
 @dataclass
-class CancelOrderRequest:
+class CreateNewLocateRequest:
     portfolio_id: str
-    order_id: str
+    symbol: str
+    conversion_date: str
+    amount: str
     allowed_status_codes: Optional[List[int]] = None
 
 
 @dataclass
-class CancelOrderResponse(BaseResponse):
-    id: str = None
+class CreateNewLocateResponse(BaseResponse):
+    locate_id: str = None
 
 
-class PrimeClient:
+class PrimeMarginClient:
     def __init__(self, credentials: Credentials):
         self.client = Client(credentials)
 
-    def cancel_order(self, request: CancelOrderRequest) -> CancelOrderResponse:
-        path = f"/portfolios/{request.portfolio_id}/orders/{request.order_id}/cancel"
-        body = asdict(request)
-        response = self.client.request("POST", path, body=body, allowed_status_codes=request.allowed_status_codes)
-        return CancelOrderResponse(response.json())
+    def create_new_locate(self, request: CreateNewLocateRequest) -> CreateNewLocateResponse:
+        path = f"/portfolios/{request.portfolio_id}/locates"
+
+        body = {k: v for k, v in asdict(request).items() if v is not None}
+
+        try:
+            response = self.client.request(
+                "POST",
+                path,
+                body=body,
+                allowed_status_codes=request.allowed_status_codes,
+            )
+            return CreateNewLocateResponse(response.json())
+        except Exception as e:
+            raise

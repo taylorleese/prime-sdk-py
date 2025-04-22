@@ -15,7 +15,7 @@
 from dataclasses import dataclass, asdict
 from prime_sdk.base_response import BaseResponse
 from prime_sdk.client import Client
-from typing import List
+from typing import List, Optional
 from prime_sdk.credentials import Credentials
 from prime_sdk.enums import OrderSide
 
@@ -27,7 +27,7 @@ class AcceptQuoteRequest:
     side: OrderSide
     client_order_id: str
     quote_id: str
-    allowed_status_codes: List[int] = None
+    allowed_status_codes: Optional[List[int]] = None
 
 
 @dataclass

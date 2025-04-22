@@ -11,21 +11,20 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 #  limitations under the License.
-
 from prime_sdk.credentials import Credentials
-from prime_sdk.list_portfolios import PrimeClient, ListPortfoliosRequest
+from prime_sdk.get_portfolio import PrimeClient, GetPortfolioRequest
 
 
 def main():
     credentials = Credentials.from_env("PRIME_CREDENTIALS")
     prime_client = PrimeClient(credentials)
 
-    request = ListPortfoliosRequest()
+    request = GetPortfolioRequest(portfolio_id="314dbd76-4459-41cd-ba9a-dccdd86b44e2")
     try:
-        response = prime_client.list_portfolios(request)
+        response = prime_client.get_portfolio(request)
         print(response)
     except Exception as e:
-        print(f"failed to list portfolios: {e}")
+        print(f"failed to list wallets: {e}")
 
 
 if __name__ == "__main__":

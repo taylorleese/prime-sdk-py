@@ -13,7 +13,7 @@
 #  limitations under the License.
 
 from dataclasses import dataclass
-from typing import List
+from typing import List, Optional
 from prime_sdk.base_response import BaseResponse
 from prime_sdk.client import Client
 from prime_sdk.credentials import Credentials
@@ -22,7 +22,7 @@ from prime_sdk.model import Portfolio
 
 @dataclass
 class ListPortfoliosRequest:
-    allowed_status_codes: List[int] = None
+    allowed_status_codes: Optional[List[int]] = None
 
 
 @dataclass

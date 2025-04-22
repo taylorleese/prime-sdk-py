@@ -13,37 +13,41 @@
 #  limitations under the License.
 
 from dataclasses import dataclass
-
+from typing import Optional, List
 from prime_sdk.base_response import BaseResponse
 from prime_sdk.client import Client
-from typing import List, Optional
 from prime_sdk.credentials import Credentials
+from prime_sdk.model import Locate
 from prime_sdk.utils import append_query_param
 
 
 @dataclass
-class ScheduleEntityFuturesSweepRequest:
-    entity_id: str
-    amount: str
-    currency: str
+class ListPortfolioLocatesRequest:
+    portfolio_id: str
+    locate_ids: Optional[List[str]] = None
+    locate_date: Optional[str] = None
     allowed_status_codes: Optional[List[int]] = None
 
 
 @dataclass
-class ScheduleEntityFuturesSweepResponse(BaseResponse):
-    success: bool = None
-    request_id: str = None
+class ListPortfolioLocatesResponse(BaseResponse):
+    locates: List[Locate] = None
 
 
-class PrimeClient:
+class PrimeMarginClient:
     def __init__(self, credentials: Credentials):
         self.client = Client(credentials)
+
+    def list_portfolio_locates(self, request: ListPortfolioLocatesRequest) -> ListPortfolioLocatesResponse:
+        path = f"/portfolios/{request.portfolio_id}/locates"
         
-    def schedule_entity_futures_sweep(self, request: ScheduleEntityFuturesSweepRequest) -> ScheduleEntityFuturesSweepResponse:
-        path = f"/entities/{request.entity_id}/futures/sweeps"
+        query_params = append_query_param("", "locate_ids", request.locate_ids)
+        query_params = append_query_param(query_params, "locate_date", request.locate_date)
 
-        query_params = append_query_param("", 'amount', request.amount)
-        query_params = append_query_param(query_params, 'currency', request.currency)
-
-        response = self.client.request("POST", path, query=query_params, allowed_status_codes=request.allowed_status_codes)
-        return ScheduleEntityFuturesSweepResponse(response.json())
+        response = self.client.request(
+            "GET",
+            path,
+            query=query_params,
+            allowed_status_codes=request.allowed_status_codes,
+        )
+        return ListPortfolioLocatesResponse(response.json())

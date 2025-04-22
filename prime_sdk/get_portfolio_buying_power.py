@@ -13,37 +13,40 @@
 #  limitations under the License.
 
 from dataclasses import dataclass
-
+from typing import Optional, List
 from prime_sdk.base_response import BaseResponse
 from prime_sdk.client import Client
-from typing import List, Optional
 from prime_sdk.credentials import Credentials
+from prime_sdk.model import BuyingPower
+from prime_sdk.utils import append_query_param
 
 
 @dataclass
-class GetEntityFcmBalanceRequest:
-    entity_id: str
+class GetBuyingPowerRequest:
+    portfolio_id: str
+    base_currency: str
+    quote_currency: str
     allowed_status_codes: Optional[List[int]] = None
 
 
 @dataclass
-class GetEntityFcmBalanceResponse(BaseResponse):
-    portfolio_id: str = None
-    cfm_usd_balance: str = None
-    unrealized_pnl: str = None
-    daily_realized_pnl: str = None
-    excess_liquidity: str = None
-    futures_buying_power: str = None
-    initial_margin: str = None
-    maintenance_margin: str = None
-    clearing_account_id: str = None    
+class GetBuyingPowerResponse(BaseResponse):
+    buying_power: BuyingPower = None
 
 
-class PrimeClient:
+class PrimeMarginClient:
     def __init__(self, credentials: Credentials):
         self.client = Client(credentials)
-        
-    def get_entity_fcm_balance(self, request: GetEntityFcmBalanceRequest) -> GetEntityFcmBalanceResponse:
-        path = f"/entities/{request.entity_id}/futures/balance_summary"
-        response = self.client.request("GET", path, allowed_status_codes=request.allowed_status_codes)
-        return GetEntityFcmBalanceResponse(response.json())
+
+    def get_buying_power(self, request: GetBuyingPowerRequest) -> GetBuyingPowerResponse:
+        path = f"/portfolios/{request.portfolio_id}/buying_power"
+        query_params = append_query_param("", "base_currency", request.base_currency)
+        query_params = append_query_param(query_params, "quote_currency", request.quote_currency)
+
+        response = self.client.request(
+            "GET",
+            path,
+            query=query_params,
+            allowed_status_codes=request.allowed_status_codes,
+        )
+        return GetBuyingPowerResponse(response.json())

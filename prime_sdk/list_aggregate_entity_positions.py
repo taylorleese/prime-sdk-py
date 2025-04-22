@@ -1,4 +1,4 @@
-# Copyright 2024-present Coinbase Global, Inc.
+# Copyright 2025-present Coinbase Global, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -13,42 +13,40 @@
 #  limitations under the License.
 
 from dataclasses import dataclass
-
+from typing import Optional, List
 from prime_sdk.base_response import BaseResponse
 from prime_sdk.client import Client
-from typing import Optional, List
 from prime_sdk.credentials import Credentials
-from prime_sdk.utils import PaginationParams, append_query_param, append_pagination_params, Pagination
-from prime_sdk.enums import WalletType
-from prime_sdk.model import Wallet
+from prime_sdk.model import Position
+from prime_sdk.utils import PaginationParams, Pagination, append_query_param, append_pagination_params
 
 
 @dataclass
-class ListWalletsRequest:
-    portfolio_id: str
-    type: Optional[WalletType] = None
-    symbols: Optional[str] = None
+class ListAggregateEntityPositionsRequest:
+    entity_id: str
     pagination: Optional[PaginationParams] = None
     allowed_status_codes: Optional[List[int]] = None
 
 
 @dataclass
-class ListWalletsResponse(BaseResponse):
-    wallets: List[Wallet] = None
+class ListAggregateEntityPositionsResponse(BaseResponse):
+    positions: List[Position] = None
     pagination: Pagination = None
 
 
-class PrimeClient:
+class PrimeMarginClient:
     def __init__(self, credentials: Credentials):
         self.client = Client(credentials)
 
-    def list_wallets(self, request: ListWalletsRequest) -> ListWalletsResponse:
-        path = f"/portfolios/{request.portfolio_id}/wallets"
+    def list_aggregate_entity_positions(self, request: ListAggregateEntityPositionsRequest) -> ListAggregateEntityPositionsResponse:
+        path = f"/entities/{request.entity_id}/aggregate_positions"
 
-        query_params = append_query_param("", 'symbols', request.symbols)
-        query_params = append_query_param(query_params, 'type', request.type)
         query_params = append_pagination_params(query_params, request.pagination)
-
-        response = self.client.request("GET", path, query=query_params,
-                                       allowed_status_codes=request.allowed_status_codes)
-        return ListWalletsResponse(response.json())
+        
+        response = self.client.request(
+            "GET",
+            path,
+            query=query_params,
+            allowed_status_codes=request.allowed_status_codes,
+        )
+        return ListAggregateEntityPositionsResponse(response.json())

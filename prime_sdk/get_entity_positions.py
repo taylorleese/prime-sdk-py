@@ -26,7 +26,7 @@ from prime_sdk.model import Position
 class GetEntityPositionsRequest:
     entity_id: str
     product_id: Optional[str] = None
-    allowed_status_codes: List[int] = None
+    allowed_status_codes: Optional[List[int]] = None
 
 
 @dataclass

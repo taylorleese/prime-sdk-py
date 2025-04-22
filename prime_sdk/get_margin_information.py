@@ -1,4 +1,4 @@
-# Copyright 2024-present Coinbase Global, Inc.
+# Copyright 2025-present Coinbase Global, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -13,35 +13,35 @@
 #  limitations under the License.
 
 from dataclasses import dataclass
+from typing import Optional, List
 from prime_sdk.base_response import BaseResponse
 from prime_sdk.client import Client
-from typing import Optional, List
 from prime_sdk.credentials import Credentials
-from prime_sdk.utils import PaginationParams, append_pagination_params
-from prime_sdk.model import Details
+from prime_sdk.model import MarginInformation
 
 
 @dataclass
-class ListEntityPaymentMethodsRequest:
+class GetMarginInformationRequest:
     entity_id: str
-    pagination: Optional[PaginationParams] = None
     allowed_status_codes: Optional[List[int]] = None
 
 
 @dataclass
-class ListEntityPaymentMethodsResponse(BaseResponse):
-    payment_methods: List[Details] = None
+class GetMarginInformationResponse(BaseResponse):
+    margin_information: MarginInformation = None
+    
+    
 
-
-class PrimeClient:
+class PrimeMarginClient:
     def __init__(self, credentials: Credentials):
         self.client = Client(credentials)
 
-    def list_entity_payment_methods(self, request: ListEntityPaymentMethodsRequest) -> ListEntityPaymentMethodsResponse:
-        path = f"/entities/{request.entity_id}/payment-methods"
-
-        query_params = append_pagination_params("", request.pagination)
-
-        response = self.client.request("GET", path, query=query_params,
-                                       allowed_status_codes=request.allowed_status_codes)
-        return ListEntityPaymentMethodsResponse(response.json())
+    def get_margin_information(self, request: GetMarginInformationRequest) -> GetMarginInformationResponse:
+        path = f"/entities/{request.entity_id}/margin"
+        
+        response = self.client.request(
+            "GET",
+            path,
+            allowed_status_codes=request.allowed_status_codes,
+        )
+        return GetMarginInformationResponse(response.json())

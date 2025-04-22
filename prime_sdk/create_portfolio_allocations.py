@@ -27,7 +27,7 @@ class AllocationLeg:
     allocation_leg_id: str
     destination_portfolio_id: str
     amount: str
-    allowed_status_codes: List[int] = None
+    allowed_status_codes: Optional[List[int]] = None
 
     def __post_init__(self):
         if self.leg_id:
@@ -46,7 +46,7 @@ class CreatePortfolioAllocationsRequest:
     allocation_legs: List[AllocationLeg]
     size_type: SizeType
     remainder_destination_portfolio_id: str
-    allowed_status_codes: List[int] = None
+    allowed_status_codes: Optional[List[int]] = None
 
 
 @dataclass

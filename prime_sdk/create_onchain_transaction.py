@@ -39,7 +39,7 @@ class CreateOnchainTransactionRequest:
     raw_unsigned_txn: str
     rpc: Optional[Rpc] = None
     evm_params: Optional[EvmParams] = None
-    allowed_status_codes: List[int] = None
+    allowed_status_codes: Optional[List[int]] = None
 
 
 

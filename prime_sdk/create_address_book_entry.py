@@ -27,7 +27,7 @@ class CreateAddressBookEntryRequest:
     currency_symbol: str
     name: str
     account_identifier: Optional[str] = None
-    allowed_status_codes: List[int] = None
+    allowed_status_codes: Optional[List[int]] = None
 
 
 @dataclass

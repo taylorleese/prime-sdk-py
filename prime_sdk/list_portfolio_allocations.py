@@ -28,10 +28,10 @@ class ListPortfolioAllocationsRequest:
     portfolio_id: str
     product_ids: Optional[str] = None
     order_side: Optional[OrderSide] = None
-    start_date: datetime = None
+    start_date: datetime
     end_date: Optional[datetime] = None
     pagination: Optional[PaginationParams] = None
-    allowed_status_codes: List[int] = None
+    allowed_status_codes: Optional[List[int]] = None
 
 
 @dataclass

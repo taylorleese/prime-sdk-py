@@ -28,7 +28,7 @@ class ListPortfolioBalancesRequest:
     symbols: Optional[str] = None
     balance_type: Optional[BalanceType] = None
     pagination: Optional[PaginationParams] = None
-    allowed_status_codes: List[int] = None
+    allowed_status_codes: Optional[List[int]] = None
 
 
 @dataclass

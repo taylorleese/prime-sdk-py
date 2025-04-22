@@ -25,7 +25,7 @@ from prime_sdk.model import PortfolioUser
 class ListPortfolioUsersRequest:
     portfolio_id: str
     pagination: Optional[PaginationParams] = None
-    allowed_status_codes: List[int] = None
+    allowed_status_codes: Optional[List[int]] = None
 
 
 @dataclass

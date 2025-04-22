@@ -518,3 +518,274 @@ class OnchainBalance:
     asset: Asset
     amount: str
     visibility_status: str
+
+
+@dataclass
+class MarketRate:
+    symbol: str
+    rate: str
+
+
+@dataclass
+class AssetBalance:
+    portfolio_id: str
+    symbol: str
+    amount: str
+    notional_amount: str
+    conversion_rate: str
+
+
+@dataclass
+class TfLoan:
+    portfolio_id: str
+    symbol: str
+    amount: str
+    notional_amount: str
+    due_date: str
+
+
+@dataclass
+class PmLoan:
+    portfolio_id: str
+    symbol: str
+    amount: str
+    notional_amount: str
+    due_date: str
+
+
+@dataclass
+class ShortCollateral:
+    portfolio_id: str
+    symbol: str
+    amount: str
+    notional_amount: str
+    due_date: str
+
+
+@dataclass
+class PortfolioStressTriggered:
+    amount: str
+    add_on_type: str
+
+
+@dataclass
+class PmAssetInfo:
+    symbol: str
+    amount: str
+    price: str
+    notional_amount: str
+    asset_tier: str
+    margin_eligible: bool
+    base_margin_requirement: str
+    base_margin_requirement_notional: str
+    adv_30d: str
+    hist_5d_vol: str
+    hist_30d_vol: str
+    hist_90d_vol: str
+    volatility_addon: str
+    liquidity_addon: str
+    total_position_margin: str
+    short_nominal: str
+    long_nominal: str
+
+
+@dataclass
+class MarginSummary:
+    entity_id: str
+    margin_equity: str
+    margin_requirement: str
+    excess_deficit: str
+    pm_credit_consumed: str
+    tf_credit_limit: str
+    tf_credit_consumed: str
+    tf_adjusted_asset_value: str
+    tf_adjusted_liability_value: str
+    tf_adjusted_credit_consumed: str
+    tf_adjusted_equity: str
+    frozen: bool
+    frozen_reason: str
+    tf_enabled: bool
+    pm_enabled: bool
+    market_rates: List[MarketRate]
+    asset_balances: List[AssetBalance]
+    tf_loans: List[TfLoan]
+    pm_loans: List[PmLoan]
+    short_collateral: List[ShortCollateral]
+    gross_market_value: str
+    net_market_value: str
+    long_market_value: str
+    non_marginable_long_market_value: str
+    short_market_value: str
+    gross_leverage: str
+    net_exposure: str
+    portfolio_stress_triggered: PortfolioStressTriggered
+    pm_asset_info: List[PmAssetInfo]
+    pm_credit_limit: str
+    pm_margin_limit: str
+    pm_margin_consumed: str
+
+
+@dataclass
+class MarginCall:
+    id: str
+    initial_notional_amount: str
+    outstanding_notional_amount: str
+    created_at: str
+    due_at: str
+
+
+@dataclass
+class WithdrawalPower:
+    symbol: str
+    amount: str
+
+
+@dataclass
+class BuyingPower:
+    portfolio_id: str
+    base_currency: str
+    quote_currency: str
+    base_buying_power: str
+    quote_buying_power: str
+
+
+@dataclass
+class ConversionDetail:
+    symbol: str
+    tf_balance: str
+    notional_tf_balance: str
+    converted_balance: str
+    notional_converted_balance: str
+    interest_rate: str
+    conversion_rate: str
+
+
+@dataclass
+class ShortCollateral:
+    old_balance: str
+    new_balance: str
+    loan_interest_rate: str
+    collateral_interest_rate: str
+
+
+@dataclass
+class Conversion:
+    conversion_details: List[ConversionDetail]
+    short_collateral: ShortCollateral
+    conversion_datetime: str
+    portfolio_id: str
+
+
+@dataclass
+class Accrual:
+    accrual_id: str
+    date: str
+    portfolio_id: str
+    symbol: str
+    loan_type: str
+    interest_rate: str
+    nominal_accrual: str
+    notional_accrual: str
+    conversion_rate: str
+    loan_amount: str
+    benchmark: str
+    benchmark_rate: str
+    spread: str
+    rate_type: str
+    loan_amount_notional: str
+    nominal_open_borrow_sod: str
+    notional_open_bnorrow_sod: str
+
+
+@dataclass
+class Reference:
+    id: str
+    type: str
+
+
+@dataclass
+class Position:
+    symbol: str
+    long: str
+    short: str
+    reference: Reference
+
+
+class MarginSummaryRecord:
+    conversion_datetime: str
+    conversion_date: str
+    margin_summary: MarginSummary
+
+
+class Balance:
+    symbol: str
+    long_amount: str
+    long_notional: str
+    short_amount: str
+    short_notional: str
+
+
+@dataclass
+class LocateAvailability:
+    symbol: str
+    quantity: str
+    rate: str
+
+
+@dataclass
+class Locate:
+    locate_id: str
+    entity_id: str
+    portfolio_id: str
+    symbol: str
+    requested_amount: str
+    interest_rate: str
+    status: str
+    approved_amount: str
+    conversion_date: str
+    created_at: str
+    locate_date: str
+
+
+@dataclass
+class MarginCallRecord:
+    margin_call_id: str
+    initial_notional_amount: str
+    outstanding_notional_amount: str
+    created_at: str
+    due_at: str
+
+
+@dataclass
+class MarginInformation:
+    margin_call_records: List[MarginCallRecord]
+    margin_summary: MarginSummary
+
+
+@dataclass
+class AmountDue:
+    currency: str
+    amount: str
+    due_date: str
+
+
+@dataclass
+class PostTradeCredit:
+    portfolio_id: str
+    currency: str
+    limit: str
+    utilized: str
+    available: str
+    frozen: bool
+    frozen_reason: str
+    amounts_due: List[AmountDue]
+    enabled: bool
+    adjusted_credit_utilized: str
+    adjusted_portfolio_equity: str
+
+
+@dataclass
+class Fee:
+    symbol: str
+    fee: str
+

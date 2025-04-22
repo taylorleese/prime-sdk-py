@@ -23,7 +23,7 @@ from prime_sdk.credentials import Credentials
 class DeleteOnchainAddressGroupRequest:
     portfolio_id: str
     address_group_id: str
-    allowed_status_codes: List[int] = None
+    allowed_status_codes: Optional[List[int]] = None
 
 
 @dataclass

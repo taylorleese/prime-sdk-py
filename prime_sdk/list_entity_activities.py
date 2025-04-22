@@ -33,7 +33,7 @@ class ListEntityActivitiesRequest:
     start_time: Optional[datetime] = None
     end_time: Optional[datetime] = None
     pagination: Optional[PaginationParams] = None
-    allowed_status_codes: List[int] = None
+    allowed_status_codes: Optional[List[int]] = None
 
 
 @dataclass

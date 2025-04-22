@@ -29,7 +29,7 @@ class PaymentMethod:
 class BlockchainAddress:
     address: str
     account_identifier: Optional[str] = None
-    allowed_status_codes: List[int] = None
+    allowed_status_codes: Optional[List[int]] = None
 
 
 @dataclass
@@ -42,7 +42,7 @@ class CreateWithdrawalRequest:
     currency_symbol: str
     payment_method: Optional[PaymentMethod] = None
     blockchain_address: Optional[BlockchainAddress] = None
-    allowed_status_codes: List[int] = None
+    allowed_status_codes: Optional[List[int]] = None
 
 
 @dataclass

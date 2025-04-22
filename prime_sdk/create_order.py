@@ -38,7 +38,7 @@ class CreateOrderRequest:
     display_base_size: Optional[str] = None
     is_raise_exact: Optional[str] = None
     historical_pov: Optional[str] = None
-    allowed_status_codes: List[int] = None
+    allowed_status_codes: Optional[List[int]] = None
 
 
 @dataclass

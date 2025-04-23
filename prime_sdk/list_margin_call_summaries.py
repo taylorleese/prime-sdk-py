@@ -34,7 +34,7 @@ class ListMarginCallSummariesResponse(BaseResponse):
     margin_summaries: List[MarginSummaryRecord] = None
 
 
-class PrimeMarginClient:
+class PrimeClient:
     def __init__(self, credentials: Credentials):
         self.client = Client(credentials)
 

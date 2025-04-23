@@ -31,7 +31,7 @@ class GetMarginInformationResponse(BaseResponse):
     margin_information: MarginInformation = None
     
 
-class PrimeMarginClient:
+class PrimeClient:
     def __init__(self, credentials: Credentials):
         self.client = Client(credentials)
 

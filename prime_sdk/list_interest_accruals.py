@@ -36,7 +36,7 @@ class ListInterestAccrualsResponse(BaseResponse):
     accruals: List[Accrual] = None
 
 
-class PrimeMarginClient:
+class PrimeClient:
     def __init__(self, credentials: Credentials):
         self.client = Client(credentials)
 

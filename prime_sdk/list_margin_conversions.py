@@ -34,7 +34,7 @@ class ListMarginConversionsResponse(BaseResponse):
     conversions: List[Conversion] = None
 
 
-class PrimeMarginClient:
+class PrimeClient:
     def __init__(self, credentials: Credentials):
         self.client = Client(credentials)
 

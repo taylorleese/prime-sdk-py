@@ -33,7 +33,7 @@ class GetEntityLocateAvailabilitiesResponse(BaseResponse):
     locates: List[LocateAvailability] = None
 
 
-class PrimeMarginClient:
+class PrimeClient:
     def __init__(self, credentials: Credentials):
         self.client = Client(credentials)
 

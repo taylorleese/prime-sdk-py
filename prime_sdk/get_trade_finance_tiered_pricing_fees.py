@@ -33,7 +33,7 @@ class GetTradeFinanceTieredPricingFeesResponse(BaseResponse):
     fees: List[Fee] = None
 
 
-class PrimeTradeFinanceClient:
+class PrimeClient:
     def __init__(self, credentials: Credentials):
         self.client = Client(credentials)
 

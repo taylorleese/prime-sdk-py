@@ -33,7 +33,7 @@ class CreateNewLocateResponse(BaseResponse):
     locate_id: str = None
 
 
-class PrimeMarginClient:
+class PrimeClient:
     def __init__(self, credentials: Credentials):
         self.client = Client(credentials)
 

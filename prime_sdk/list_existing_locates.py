@@ -34,7 +34,7 @@ class ListExistingLocatesResponse(BaseResponse):
     locates: List[Locate] = None
 
 
-class PrimeMarginClient:
+class PrimeClient:
     def __init__(self, credentials: Credentials):
         self.client = Client(credentials)
 

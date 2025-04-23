@@ -34,7 +34,7 @@ class ListEntityPositionsResponse(BaseResponse):
     pagination: Pagination = None
 
 
-class PrimeMarginClient:
+class PrimeClient:
     def __init__(self, credentials: Credentials):
         self.client = Client(credentials)
 

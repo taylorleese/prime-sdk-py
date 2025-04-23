@@ -34,7 +34,7 @@ class GetBuyingPowerResponse(BaseResponse):
     buying_power: BuyingPower = None
 
 
-class PrimeMarginClient:
+class PrimeClient:
     def __init__(self, credentials: Credentials):
         self.client = Client(credentials)
 

@@ -33,7 +33,7 @@ class GetPortfolioWithdrawalPowerResponse(BaseResponse):
     withdrawal_power: WithdrawalPower = None
 
 
-class PrimeMarginClient:
+class PrimeClient:
     def __init__(self, credentials: Credentials):
         self.client = Client(credentials)
 

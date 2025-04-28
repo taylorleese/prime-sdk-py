@@ -25,7 +25,7 @@ class Inputs:
 
 
 @dataclass
-class RequestToStakeOrDelegateAWalletRequest:
+class CreateStakeRequest:
     portfolio_id: str
     wallet_id: str
     idempotency_key: str
@@ -34,7 +34,7 @@ class RequestToStakeOrDelegateAWalletRequest:
 
 
 @dataclass
-class RequestToStakeOrDelegateAWalletResponse(BaseResponse):
+class CreateStakeResponse(BaseResponse):
     wallet_id: str = None
     transaction_id: str = None
     activity_id: str = None
@@ -44,7 +44,7 @@ class PrimeClient:
     def __init__(self, credentials: Credentials):
         self.client = Client(credentials)
         
-    def request_to_stake_or_delegate_a_wallet(self, request: RequestToStakeOrDelegateAWalletRequest) -> RequestToStakeOrDelegateAWalletResponse:
+    def create_stake(self, request: CreateStakeRequest) -> CreateStakeResponse:
         path = f"/portfolios/{request.portfolio_id}/wallets/{request.wallet_id}/staking/initiate"
         body = {k: v for k, v in asdict(request).items() if v is not None}
         
@@ -52,4 +52,4 @@ class PrimeClient:
             body["inputs"] = asdict(request.inputs)
 
         response = self.client.request("POST", path, body=body, allowed_status_codes=request.allowed_status_codes)
-        return RequestToStakeOrDelegateAWalletResponse(response.json())
+        return CreateStakeResponse(response.json())

@@ -10,7 +10,7 @@
 # distributed under the License is distributed on an "AS IS" BASIS,
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
-#  limitations under the License.
+# limitations under the License.
 
 from dataclasses import dataclass
 from prime_sdk.base_response import BaseResponse
@@ -20,6 +20,7 @@ from datetime import datetime
 from prime_sdk.credentials import Credentials
 from prime_sdk.utils import append_query_param
 from prime_sdk.enums import OrderType, OrderSide
+from prime_sdk.model import Order
 
 
 @dataclass
@@ -31,12 +32,12 @@ class ListOpenOrdersRequest:
     order_side: Optional[OrderSide] = None
     start_date: datetime = None
     end_date: Optional[datetime] = None
-    allowed_status_codes: List[int] = None
+    allowed_status_codes: Optional[List[int]] = None
 
 
 @dataclass
 class ListOpenOrdersResponse(BaseResponse):
-    request: ListOpenOrdersRequest
+    orders: List[Order] = None
 
 
 class PrimeClient:
@@ -61,6 +62,5 @@ class PrimeClient:
                 'end_date',
                 request.end_date.isoformat() + 'Z')
 
-        response = self.client.request("GET", path, query=query_params,
-                                       allowed_status_codes=request.allowed_status_codes)
+        response = self.client.request("GET", path, query=query_params, allowed_status_codes=request.allowed_status_codes)
         return ListOpenOrdersResponse(response.json(), request)

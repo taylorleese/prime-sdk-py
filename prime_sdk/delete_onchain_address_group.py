@@ -10,7 +10,7 @@
 # distributed under the License is distributed on an "AS IS" BASIS,
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
-#  limitations under the License.
+# limitations under the License.
 
 from dataclasses import dataclass, asdict
 from prime_sdk.base_response import BaseResponse
@@ -23,12 +23,14 @@ from prime_sdk.credentials import Credentials
 class DeleteOnchainAddressGroupRequest:
     portfolio_id: str
     address_group_id: str
-    allowed_status_codes: List[int] = None
+    allowed_status_codes: Optional[List[int]] = None
 
 
 @dataclass
 class DeleteOnchainAddressGroupResponse(BaseResponse):
-    request: DeleteOnchainAddressGroupRequest
+    activity_type: str = None
+    num_approvals_remaining: int = None
+    activity_id: str = None
 
 
 class PrimeClient:
@@ -38,4 +40,4 @@ class PrimeClient:
     def delete_onchain_address_group(self, request: DeleteOnchainAddressGroupRequest) -> DeleteOnchainAddressGroupResponse:
         path = f"/portfolios/{request.portfolio_id}/onchain_address_group/{request.address_group_id}"
         response = self.client.request("DELETE", path, allowed_status_codes=request.allowed_status_codes)
-        return DeleteOnchainAddressGroupResponse(response.json(), request)
+        return DeleteOnchainAddressGroupResponse(response.json())

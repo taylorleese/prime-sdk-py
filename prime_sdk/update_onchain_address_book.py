@@ -10,12 +10,12 @@
 # distributed under the License is distributed on an "AS IS" BASIS,
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
-#  limitations under the License.
+# limitations under the License.
 
 from dataclasses import dataclass, asdict
 from prime_sdk.base_response import BaseResponse
 from prime_sdk.client import Client
-from typing import List
+from typing import List, Optional
 from prime_sdk.credentials import Credentials
 from prime_sdk.model import AddressGroup
 
@@ -24,12 +24,14 @@ from prime_sdk.model import AddressGroup
 class UpdateOnchainAddressBookRequest:
     portfolio_id: str
     address_group: AddressGroup
-    allowed_status_codes: List[int] = None
+    allowed_status_codes: Optional[List[int]] = None
 
 
 @dataclass
 class UpdateOnchainAddressBookResponse(BaseResponse):
-    request: UpdateOnchainAddressBookRequest
+    activity_type: str = None
+    num_approvals_remaining: int = None
+    activity_id: str = None
 
 
 class PrimeClient:

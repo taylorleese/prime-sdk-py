@@ -10,13 +10,13 @@
 # distributed under the License is distributed on an "AS IS" BASIS,
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
-#  limitations under the License.
+# limitations under the License.
 
 from setuptools import setup, find_packages
 
 setup(
     name="prime-sdk-py",
-    version="0.3.1",
+    version="0.4.0",
     packages=find_packages(),
     install_requires=[
         'requests',

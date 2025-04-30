@@ -10,7 +10,7 @@
 # distributed under the License is distributed on an "AS IS" BASIS,
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
-#  limitations under the License.
+# limitations under the License.
 
 from dataclasses import dataclass, asdict
 from prime_sdk.base_response import BaseResponse
@@ -29,12 +29,16 @@ class CreateQuoteRequest:
     base_quantity: str
     quote_value: Optional[str] = None
     limit_price: Optional[str] = None
-    allowed_status_codes: List[int] = None
+    allowed_status_codes: Optional[List[int]] = None
 
 
 @dataclass
 class CreateQuoteResponse(BaseResponse):
-    request: CreateQuoteRequest
+    quote_id: str = None
+    expiration_time: str = None
+    best_price: str = None
+    order_total: str = None
+    price_inclusive_of_fees: str = None
 
 
 class PrimeClient:
@@ -45,4 +49,4 @@ class PrimeClient:
         path = f"/portfolios/{request.portfolio_id}/rfq"
         body = {k: v for k, v in asdict(request).items() if v is not None}
         response = self.client.request("POST", path, body=body, allowed_status_codes=request.allowed_status_codes)
-        return CreateQuoteResponse(response.json(), request)
+        return CreateQuoteResponse(response.json())

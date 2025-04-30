@@ -10,24 +10,25 @@
 # distributed under the License is distributed on an "AS IS" BASIS,
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
-#  limitations under the License.
+# limitations under the License.
 
 from dataclasses import dataclass
 from prime_sdk.base_response import BaseResponse
 from prime_sdk.client import Client
-from typing import List
+from typing import List, Optional
 from prime_sdk.credentials import Credentials
+from prime_sdk.model import Activity
 
 
 @dataclass
 class GetEntityActivityRequest:
     activity_id: str
-    allowed_status_codes: List[int] = None
+    allowed_status_codes: Optional[List[int]] = None
 
 
 @dataclass
 class GetEntityActivityResponse(BaseResponse):
-    request: GetEntityActivityRequest
+    activity: Activity = None
 
 
 class PrimeClient:
@@ -36,5 +37,5 @@ class PrimeClient:
         
     def get_entity_activity_by_activity_id(self, request: GetEntityActivityRequest) -> GetEntityActivityResponse:
         path = f"/activities/{request.activity_id}"
-        response = self.client.request("GET", path, query=None, allowed_status_codes=request.allowed_status_codes)
-        return GetEntityActivityResponse(response.json(), request)
+        response = self.client.request("GET", path, allowed_status_codes=request.allowed_status_codes)
+        return GetEntityActivityResponse(response.json())

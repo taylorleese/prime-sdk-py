@@ -10,7 +10,7 @@
 # distributed under the License is distributed on an "AS IS" BASIS,
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
-#  limitations under the License.
+# limitations under the License.
 
 from dataclasses import dataclass
 from prime_sdk.base_response import BaseResponse
@@ -18,18 +18,19 @@ from prime_sdk.client import Client
 from typing import Optional, List
 from prime_sdk.credentials import Credentials
 from prime_sdk.utils import PaginationParams, append_pagination_params
+from prime_sdk.model import Details
 
 
 @dataclass
 class ListEntityPaymentMethodsRequest:
     entity_id: str
     pagination: Optional[PaginationParams] = None
-    allowed_status_codes: List[int] = None
+    allowed_status_codes: Optional[List[int]] = None
 
 
 @dataclass
 class ListEntityPaymentMethodsResponse(BaseResponse):
-    request: ListEntityPaymentMethodsRequest
+    payment_methods: List[Details] = None
 
 
 class PrimeClient:
@@ -41,6 +42,5 @@ class PrimeClient:
 
         query_params = append_pagination_params("", request.pagination)
 
-        response = self.client.request("GET", path, query=query_params,
-                                       allowed_status_codes=request.allowed_status_codes)
-        return ListEntityPaymentMethodsResponse(response.json(), request)
+        response = self.client.request("GET", path, query=query_params, allowed_status_codes=request.allowed_status_codes)
+        return ListEntityPaymentMethodsResponse(response.json())

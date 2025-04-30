@@ -10,7 +10,7 @@
 # distributed under the License is distributed on an "AS IS" BASIS,
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
-#  limitations under the License.
+# limitations under the License.
 
 from dataclasses import dataclass, asdict
 from typing import Optional, List, Union, Dict
@@ -42,3 +42,13 @@ def append_pagination_params(query_params: str, pagination: Optional[PaginationP
         query_params = append_query_param(query_params, 'limit', pagination.limit)
         query_params = append_query_param(query_params, 'sort_direction', pagination.sort_direction)
     return query_params
+
+
+@dataclass
+class Pagination:
+    next_cursor: str = ''
+    sort_direction: str = ''
+    has_next: bool = False
+
+    def to_dict(self) -> Dict[str, str]:
+        return asdict(self)

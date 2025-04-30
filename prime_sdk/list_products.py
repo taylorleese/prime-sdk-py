@@ -10,27 +10,28 @@
 # distributed under the License is distributed on an "AS IS" BASIS,
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
-#  limitations under the License.
+# limitations under the License.
 
 from dataclasses import dataclass
 from typing import Optional, List
 from prime_sdk.base_response import BaseResponse
 from prime_sdk.client import Client
 from prime_sdk.credentials import Credentials
-from prime_sdk.utils import PaginationParams, append_pagination_params
+from prime_sdk.utils import PaginationParams, append_pagination_params, Pagination
+from prime_sdk.model import Product
 
 
 @dataclass
 class ListProductsRequest:
     portfolio_id: str
     pagination: Optional[PaginationParams] = None
-    allowed_status_codes: List[int] = None
+    allowed_status_codes: Optional[List[int]] = None
 
 
 @dataclass
 class ListProductsResponse(BaseResponse):
-    request: ListProductsRequest
-
+    products: List[Product] = None
+    pagination: Pagination = None
 
 class PrimeClient:
     def __init__(self, credentials: Credentials):
@@ -40,6 +41,5 @@ class PrimeClient:
         path = f"/portfolios/{request.portfolio_id}/products"
 
         query_params = append_pagination_params("", request.pagination)
-        response = self.client.request("GET", path, query=query_params,
-                                       allowed_status_codes=request.allowed_status_codes)
-        return ListProductsResponse(response.json(), request)
+        response = self.client.request("GET", path, query=query_params, allowed_status_codes=request.allowed_status_codes)
+        return ListProductsResponse(response.json())

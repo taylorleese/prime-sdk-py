@@ -10,25 +10,25 @@
 # distributed under the License is distributed on an "AS IS" BASIS,
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
-#  limitations under the License.
+# limitations under the License.
 
 from dataclasses import dataclass
 from prime_sdk.base_response import BaseResponse
 from prime_sdk.client import Client
-from typing import List
+from typing import List, Optional
 from prime_sdk.credentials import Credentials
-
+from prime_sdk.model import Asset
 
 @dataclass
 class ListAssetsRequest:
     entity_id: str
-    allowed_status_codes: List[int] = None
+    allowed_status_codes: Optional[List[int]] = None
 
 
 @dataclass
 class ListAssetsResponse(BaseResponse):
-    request: ListAssetsRequest
-
+    assets: List[Asset] = None
+    
 
 class PrimeClient:
     def __init__(self, credentials: Credentials):
@@ -36,5 +36,5 @@ class PrimeClient:
 
     def list_assets(self, request: ListAssetsRequest) -> ListAssetsResponse:
         path = f"/entities/{request.entity_id}/assets"
-        response = self.client.request("GET", path, query=None, allowed_status_codes=request.allowed_status_codes)
-        return ListAssetsResponse(response.json(), request)
+        response = self.client.request("GET", path, allowed_status_codes=request.allowed_status_codes)
+        return ListAssetsResponse(response.json())

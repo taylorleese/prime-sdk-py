@@ -10,7 +10,7 @@
 # distributed under the License is distributed on an "AS IS" BASIS,
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
-#  limitations under the License.
+# limitations under the License.
 
 from dataclasses import dataclass, asdict
 from prime_sdk.base_response import BaseResponse
@@ -27,7 +27,7 @@ class AllocationLeg:
     allocation_leg_id: str
     destination_portfolio_id: str
     amount: str
-    allowed_status_codes: List[int] = None
+    allowed_status_codes: Optional[List[int]] = None
 
     def __post_init__(self):
         if self.leg_id:
@@ -46,25 +46,26 @@ class CreatePortfolioAllocationsRequest:
     allocation_legs: List[AllocationLeg]
     size_type: SizeType
     remainder_destination_portfolio_id: str
-    allowed_status_codes: List[int] = None
+    allowed_status_codes: Optional[List[int]] = None
 
 
 @dataclass
 class CreatePortfolioAllocationsResponse(BaseResponse):
-    request: CreatePortfolioAllocationsRequest
+    success: bool = None
+    allocation_id: str = None
+    failure_reason: str = None
 
 
 class PrimeClient:
     def __init__(self, credentials: Credentials):
         self.client = Client(credentials)
 
-    def create_portfolio_allocations(
-            self,
-            request: CreatePortfolioAllocationsRequest) -> CreatePortfolioAllocationsResponse:
+    def create_portfolio_allocations(self, request: CreatePortfolioAllocationsRequest) -> CreatePortfolioAllocationsResponse:
         path = "/allocations"
 
-        body = asdict(request)
-        body['allocation_legs'] = [asdict(leg) for leg in request.allocation_legs]
+        body = {k: v for k, v in asdict(request).items() if v is not None}
+        if request.allocation_legs:
+            body["allocation_legs"] = [asdict(leg) for leg in request.allocation_legs]
 
         response = self.client.request("POST", path, body=body, allowed_status_codes=request.allowed_status_codes)
         return CreatePortfolioAllocationsResponse(response.json(), request)

@@ -10,13 +10,13 @@
 # distributed under the License is distributed on an "AS IS" BASIS,
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
-#  limitations under the License.
+# limitations under the License.
 
 from dataclasses import dataclass, asdict
 
 from prime_sdk.base_response import BaseResponse
 from prime_sdk.client import Client
-from typing import List
+from typing import List, Optional
 from prime_sdk.credentials import Credentials
 
 
@@ -29,12 +29,18 @@ class CreateConversionRequest:
     idempotency_key: str
     source_symbol: str
     destination_symbol: str
-    allowed_status_codes: List[int] = None
+    allowed_status_codes: Optional[List[int]] = None
 
 
 @dataclass
 class CreateConversionResponse(BaseResponse):
-    request: CreateConversionRequest
+    activity_id: str = None
+    source_symbol: str = None
+    destination_symbol: str = None
+    amount: str = None
+    destination: str = None
+    source: str = None
+    transaction_id: str = None
 
 
 class PrimeClient:
@@ -43,6 +49,6 @@ class PrimeClient:
         
     def create_conversion(self, request: CreateConversionRequest) -> CreateConversionResponse:
         path = f"/portfolios/{request.portfolio_id}/wallets/{request.wallet_id}/conversion"
-        body = asdict(request)
+        body = {k: v for k, v in asdict(request).items() if v is not None}
         response = self.client.request("POST", path, body=body, allowed_status_codes=request.allowed_status_codes)
-        return CreateConversionResponse(response.json(), request)
+        return CreateConversionResponse(response.json())

@@ -10,13 +10,14 @@
 # distributed under the License is distributed on an "AS IS" BASIS,
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
-#  limitations under the License.
+# limitations under the License.
 
 from dataclasses import dataclass, asdict
 from prime_sdk.base_response import BaseResponse
 from prime_sdk.client import Client
 from typing import Optional, List
 from prime_sdk.credentials import Credentials
+from prime_sdk.model import Blockchain
 
 
 @dataclass
@@ -28,7 +29,7 @@ class PaymentMethod:
 class BlockchainAddress:
     address: str
     account_identifier: Optional[str] = None
-    allowed_status_codes: List[int] = None
+    allowed_status_codes: Optional[List[int]] = None
 
 
 @dataclass
@@ -41,12 +42,21 @@ class CreateWithdrawalRequest:
     currency_symbol: str
     payment_method: Optional[PaymentMethod] = None
     blockchain_address: Optional[BlockchainAddress] = None
-    allowed_status_codes: List[int] = None
+    allowed_status_codes: Optional[List[int]] = None
 
 
 @dataclass
 class CreateWithdrawalResponse(BaseResponse):
-    request: CreateWithdrawalRequest
+    activity_id: str = None
+    approval_url: str = None
+    symbol: str = None
+    amount: str = None
+    fee: str = None
+    destination_type: str = None
+    source_type: str = None
+    blockchain_destination: Blockchain = None
+    blockchain_source: Blockchain = None
+    transaction_id: str = None
 
 
 class PrimeClient:
@@ -56,15 +66,13 @@ class PrimeClient:
     def create_withdrawal(self, request: CreateWithdrawalRequest) -> CreateWithdrawalResponse:
         path = f"/portfolios/{request.portfolio_id}/wallets/{request.wallet_id}/withdrawals"
 
-        body = asdict(request)
+        body = {k: v for k, v in asdict(request).items() if v is not None}
 
         if request.payment_method:
-            body['payment_method'] = asdict(request.payment_method)
+            body["payment_method"] = asdict(request.payment_method)
 
         if request.blockchain_address:
-            body['blockchain_address'] = {k: v for k, v in asdict(request.blockchain_address).items() if v is not None}
-
-        body = {k: v for k, v in body.items() if v is not None}
+            body["blockchain_address"] = asdict(request.blockchain_address)
 
         response = self.client.request("POST", path, body=body, allowed_status_codes=request.allowed_status_codes)
-        return CreateWithdrawalResponse(response.json(), request)
+        return CreateWithdrawalResponse(response.json())

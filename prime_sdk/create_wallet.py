@@ -10,12 +10,12 @@
 # distributed under the License is distributed on an "AS IS" BASIS,
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
-#  limitations under the License.
+# limitations under the License.
 
 from dataclasses import dataclass, asdict
 from prime_sdk.base_response import BaseResponse
 from prime_sdk.client import Client
-from typing import List
+from typing import List, Optional
 from prime_sdk.credentials import Credentials
 from prime_sdk.enums import WalletType
 
@@ -26,12 +26,16 @@ class CreateWalletRequest:
     name: str
     symbol: str
     wallet_type: WalletType
-    allowed_status_codes: List[int] = None
+    allowed_status_codes: Optional[List[int]] = None
 
 
 @dataclass
 class CreateWalletResponse(BaseResponse):
-    request: CreateWalletRequest
+    activity_id: str = None
+    name: str = None
+    symbol: str = None
+    wallet_type: str = None
+    network_family: str = None
 
 
 class PrimeClient:
@@ -40,6 +44,6 @@ class PrimeClient:
         
     def create_wallet(self, request: CreateWalletRequest) -> CreateWalletResponse:
         path = f"/portfolios/{request.portfolio_id}/wallets"
-        body = asdict(request)
+        body = {k: v for k, v in asdict(request).items() if v is not None}
         response = self.client.request("POST", path, body=body, allowed_status_codes=request.allowed_status_codes)
-        return CreateWalletResponse(response.json(), request)
+        return CreateWalletResponse(response.json())

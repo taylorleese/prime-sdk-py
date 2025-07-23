@@ -815,13 +815,6 @@ class Fee:
 
 
 @dataclass
-class WalletAddress:
-    address: str
-    account_identifier: str
-    network: Network
-
-
-@dataclass
 class BlockchainAddress:
     address: str
     account_identifier: str

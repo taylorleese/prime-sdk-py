@@ -14,56 +14,27 @@
 
 import json
 import dataclasses
-from dataclasses import dataclass, field
-from typing import Any, Dict, get_origin, get_args, get_type_hints
-
+from dataclasses import dataclass, fields, asdict
+from typing import get_type_hints
 
 @dataclass
 class BaseResponse:
-    response: Dict[str, Any] = field(default_factory=dict)
-
-    def __init__(self, response: Dict[str, Any] = None, **kwargs):
-        object.__setattr__(self, "response", response or {})
-
-        for field_name in self.__dataclass_fields__:
-            if field_name == "response":
-                continue
-            if field_name in kwargs:
-                object.__setattr__(self, field_name, kwargs[field_name])
-
     def __post_init__(self):
-        child_cls = type(self)
-
-        type_hints = get_type_hints(child_cls)
-
-        for field_name, real_type in type_hints.items():
-            if field_name == "response":
+        type_hints = get_type_hints(self.__class__)
+        for f in fields(self):
+            value = getattr(self, f.name)
+            if value is None:
                 continue
+            expected_type = type_hints.get(f.name)
+            if hasattr(expected_type, '__origin__') and expected_type.__origin__ is list:
+                inner_type = expected_type.__args__[0]
+                if dataclasses.is_dataclass(inner_type) and isinstance(value, list):
+                    setattr(self, f.name, [inner_type(**v) if isinstance(v, dict) else v for v in value])
+            elif dataclasses.is_dataclass(expected_type) and isinstance(value, dict):
+                setattr(self, f.name, expected_type(**value))
 
-            current_val = getattr(self, field_name, None)
-            if current_val is not None:
-                continue
+    def __str__(self):
+        return json.dumps(asdict(self), indent=2)
 
-            raw_value = self.response.get(field_name)
-            if raw_value is None:
-                continue
-
-            if dataclasses.is_dataclass(real_type) and isinstance(raw_value, dict):
-                parsed_obj = real_type(**raw_value)
-                object.__setattr__(self, field_name, parsed_obj)
-                continue
-
-            if get_origin(real_type) is list:
-                (inner_type,) = get_args(real_type)
-                if dataclasses.is_dataclass(inner_type) and isinstance(raw_value, list):
-                    parsed_list = [inner_type(**item) for item in raw_value]
-                    object.__setattr__(self, field_name, parsed_list)
-                    continue
-
-            object.__setattr__(self, field_name, raw_value)
-
-    def __str__(self) -> str:
-        return json.dumps(self.response)
-
-    def __repr__(self) -> str:
+    def __repr__(self):
         return self.__str__()

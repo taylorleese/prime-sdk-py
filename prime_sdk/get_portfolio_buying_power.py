@@ -43,4 +43,4 @@ class PrimeClient:
         query_params = append_query_param("", "base_currency", request.base_currency)
         query_params = append_query_param(query_params, "quote_currency", request.quote_currency)
         response = self.client.request("GET", path, query=query_params, allowed_status_codes=request.allowed_status_codes)
-        return GetBuyingPowerResponse(response.json())
+        return GetBuyingPowerResponse(**response.json())

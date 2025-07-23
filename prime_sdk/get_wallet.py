@@ -39,4 +39,4 @@ class PrimeClient:
     def get_wallet(self, request: GetWalletRequest) -> GetWalletResponse:
         path = f"/portfolios/{request.portfolio_id}/wallets/{request.wallet_id}"
         response = self.client.request("GET", path, allowed_status_codes=request.allowed_status_codes)
-        return GetWalletResponse(response.json())
+        return GetWalletResponse(**response.json())

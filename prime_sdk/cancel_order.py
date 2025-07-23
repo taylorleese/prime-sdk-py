@@ -38,4 +38,4 @@ class PrimeClient:
     def cancel_order(self, request: CancelOrderRequest) -> CancelOrderResponse:
         path = f"/portfolios/{request.portfolio_id}/orders/{request.order_id}/cancel"
         response = self.client.request("POST", path, allowed_status_codes=request.allowed_status_codes)
-        return CancelOrderResponse(response.json())
+        return CancelOrderResponse(**response.json())

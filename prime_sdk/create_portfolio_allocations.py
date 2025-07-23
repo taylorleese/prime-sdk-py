@@ -23,10 +23,10 @@ from warnings import warn
 
 @dataclass
 class AllocationLeg:
-    leg_id: Optional[str] = None
     allocation_leg_id: str
     destination_portfolio_id: str
     amount: str
+    leg_id: Optional[str] = None
     allowed_status_codes: Optional[List[int]] = None
 
     def __post_init__(self):
@@ -68,4 +68,4 @@ class PrimeClient:
             body["allocation_legs"] = [asdict(leg) for leg in request.allocation_legs]
 
         response = self.client.request("POST", path, body=body, allowed_status_codes=request.allowed_status_codes)
-        return CreatePortfolioAllocationsResponse(response.json(), request)
+        return CreatePortfolioAllocationsResponse(**response.json())

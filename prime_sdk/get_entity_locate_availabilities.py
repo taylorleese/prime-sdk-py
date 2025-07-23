@@ -41,4 +41,4 @@ class PrimeClient:
         path = f"/entities/{request.entity_id}/locates_availability"
         query_params = append_query_param("", "locate_date", request.locate_date)
         response = self.client.request("GET", path, query=query_params, allowed_status_codes=request.allowed_status_codes)
-        return GetEntityLocateAvailabilitiesResponse(response.json())
+        return GetEntityLocateAvailabilitiesResponse(**response.json())

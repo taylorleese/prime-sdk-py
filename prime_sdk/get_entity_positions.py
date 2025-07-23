@@ -43,4 +43,4 @@ class PrimeClient:
         path = f"/entities/{request.entity_id}/futures/positions"
         query_params = append_query_param("", 'product_id', request.product_id)
         response = self.client.request("GET", path, query=query_params, allowed_status_codes=request.allowed_status_codes)
-        return GetEntityPositionsResponse(response.json())
+        return GetEntityPositionsResponse(**response.json())

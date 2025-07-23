@@ -38,6 +38,9 @@ class CreateOrderRequest:
     display_base_size: Optional[str] = None
     is_raise_exact: Optional[str] = None
     historical_pov: Optional[str] = None
+    stop_price: Optional[str] = None
+    settl_currency: Optional[str] = None
+    post_only: Optional[bool] = None
     allowed_status_codes: Optional[List[int]] = None
 
 
@@ -54,4 +57,4 @@ class PrimeClient:
         path = f"/portfolios/{request.portfolio_id}/order"
         body = {k: v for k, v in asdict(request).items() if v is not None}
         response = self.client.request("POST", path, body=body, allowed_status_codes=request.allowed_status_codes)
-        return CreateOrderResponse(response.json())
+        return CreateOrderResponse(**response.json())

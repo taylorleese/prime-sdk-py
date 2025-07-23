@@ -52,4 +52,4 @@ class PrimeClient:
             body["inputs"] = asdict(request.inputs)
 
         response = self.client.request("POST", path, body=body, allowed_status_codes=request.allowed_status_codes)
-        return CreateStakeResponse(response.json())
+        return CreateStakeResponse(**response.json())

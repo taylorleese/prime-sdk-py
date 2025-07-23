@@ -46,4 +46,4 @@ class PrimeClient:
     def get_entity_fcm_balance(self, request: GetEntityFcmBalanceRequest) -> GetEntityFcmBalanceResponse:
         path = f"/entities/{request.entity_id}/futures/balance_summary"
         response = self.client.request("GET", path, allowed_status_codes=request.allowed_status_codes)
-        return GetEntityFcmBalanceResponse(response.json())
+        return GetEntityFcmBalanceResponse(**response.json())

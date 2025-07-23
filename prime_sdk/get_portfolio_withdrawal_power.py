@@ -41,4 +41,4 @@ class PrimeClient:
         path = f"/portfolios/{request.portfolio_id}/withdrawal_power"
         query_params = append_query_param("", "symbol", request.symbol)
         response = self.client.request("GET", path, query=query_params, allowed_status_codes=request.allowed_status_codes)
-        return GetPortfolioWithdrawalPowerResponse(response.json())
+        return GetPortfolioWithdrawalPowerResponse(**response.json())

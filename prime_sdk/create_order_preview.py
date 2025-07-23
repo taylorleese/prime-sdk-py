@@ -35,8 +35,11 @@ class CreateOrderPreviewRequest:
     stp_id: Optional[str] = None
     display_quote_size: Optional[str] = None
     display_base_size: Optional[str] = None
-    is_raise_exact: Optional[str] = None
+    is_raise_exact: Optional[bool] = None
     historical_pov: Optional[str] = None
+    stop_price: Optional[str] = None
+    settl_currency: Optional[str] = None
+    post_only: Optional[bool] = None
     allowed_status_codes: Optional[List[int]] = None
 
 
@@ -59,6 +62,11 @@ class CreateOrderPreviewResponse(BaseResponse):
     average_filled_price: str = None
     order_total: str = None
     historical_pov: str = None
+    stop_price: str = None
+    display_size: str = None
+    is_raise_exact: bool = None
+    settl_currency: str = None
+    post_only: bool = None
 
 
 class PrimeClient:
@@ -69,4 +77,4 @@ class PrimeClient:
         path = f"/portfolios/{request.portfolio_id}/order_preview"
         body = {k: v for k, v in asdict(request).items() if v is not None}
         response = self.client.request("POST", path, body=body, allowed_status_codes=request.allowed_status_codes)
-        return CreateOrderPreviewResponse(response.json())
+        return CreateOrderPreviewResponse(**response.json())

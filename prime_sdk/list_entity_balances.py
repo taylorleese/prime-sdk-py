@@ -17,7 +17,7 @@ from typing import Optional, List
 from prime_sdk.base_response import BaseResponse
 from prime_sdk.client import Client
 from prime_sdk.credentials import Credentials
-from prime_sdk.model import Balance
+from prime_sdk.model import EntityBalance
 from prime_sdk.utils import append_query_param, Pagination, PaginationParams
 from prime_sdk.enums import AggregationType
 
@@ -33,7 +33,7 @@ class ListEntityBalancesRequest:
 
 @dataclass
 class ListEntityBalancesResponse(BaseResponse):
-    balances: List[Balance] = None
+    balances: List[EntityBalance] = None
     pagination: Pagination = None
 
 
@@ -47,4 +47,4 @@ class PrimeClient:
         query_params = append_query_param(query_params, "balance_type", request.balance_type)
 
         response = self.client.request("GET", path, query=query_params, allowed_status_codes=request.allowed_status_codes)
-        return ListEntityBalancesResponse(response.json())
+        return ListEntityBalancesResponse(**response.json())

@@ -49,4 +49,4 @@ class PrimeClient:
         path = f"/portfolios/{request.portfolio_id}/rfq"
         body = {k: v for k, v in asdict(request).items() if v is not None}
         response = self.client.request("POST", path, body=body, allowed_status_codes=request.allowed_status_codes)
-        return CreateQuoteResponse(response.json())
+        return CreateQuoteResponse(**response.json())

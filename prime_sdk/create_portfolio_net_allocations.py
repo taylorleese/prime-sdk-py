@@ -61,4 +61,4 @@ class PrimeClient:
             body["allocation_legs"] = [asdict(leg) for leg in request.allocation_legs]
 
         response = self.client.request("POST", path, body=body, allowed_status_codes=request.allowed_status_codes)
-        return CreatePortfolioNetAllocationsResponse(response.json())
+        return CreatePortfolioNetAllocationsResponse(**response.json())

@@ -40,4 +40,4 @@ class PrimeClient:
     def delete_onchain_address_group(self, request: DeleteOnchainAddressGroupRequest) -> DeleteOnchainAddressGroupResponse:
         path = f"/portfolios/{request.portfolio_id}/onchain_address_group/{request.address_group_id}"
         response = self.client.request("DELETE", path, allowed_status_codes=request.allowed_status_codes)
-        return DeleteOnchainAddressGroupResponse(response.json())
+        return DeleteOnchainAddressGroupResponse(**response.json())

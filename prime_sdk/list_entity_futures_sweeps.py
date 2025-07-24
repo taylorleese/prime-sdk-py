@@ -40,4 +40,4 @@ class PrimeClient:
     def list_entity_futures_sweeps(self, request: ListEntityFuturesSweepsRequest) -> ListEntityFuturesSweepsResponse:
         path = f"/entities/{request.entity_id}/futures/sweeps"
         response = self.client.request("GET", path, allowed_status_codes=request.allowed_status_codes)
-        return ListEntityFuturesSweepsResponse(response.json())
+        return ListEntityFuturesSweepsResponse(**response.json())

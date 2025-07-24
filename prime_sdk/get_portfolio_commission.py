@@ -38,4 +38,4 @@ class PrimeClient:
     def get_portfolio_commission(self, request: GetPortfolioCommissionRequest) -> GetPortfolioCommissionResponse:
         path = f"/portfolios/{request.portfolio_id}/commission"
         response = self.client.request("GET", path, allowed_status_codes=request.allowed_status_codes)
-        return GetPortfolioCommissionResponse(response.json(), request)
+        return GetPortfolioCommissionResponse(**response.json())

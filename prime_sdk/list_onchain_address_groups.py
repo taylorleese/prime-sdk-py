@@ -38,4 +38,4 @@ class PrimeClient:
     def list_onchain_address_groups(self, request: ListOnchainAddressGroupsRequest) -> ListOnchainAddressGroupsResponse:
         path = f"/portfolios/{request.portfolio_id}/onchain_address_groups"
         response = self.client.request("GET", path, allowed_status_codes=request.allowed_status_codes)
-        return ListOnchainAddressGroupsResponse(response.json())
+        return ListOnchainAddressGroupsResponse(**response.json())

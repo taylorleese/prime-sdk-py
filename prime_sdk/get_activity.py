@@ -39,4 +39,4 @@ class PrimeClient:
     def get_activity(self, request: GetActivityRequest) -> GetActivityResponse:
         path = f"/portfolios/{request.portfolio_id}/activities/{request.activity_id}"
         response = self.client.request("GET", path, allowed_status_codes=request.allowed_status_codes)
-        return GetActivityResponse(response.json())
+        return GetActivityResponse(**response.json())

@@ -41,4 +41,4 @@ class PrimeClient:
         path = f"/portfolios/{request.portfolio_id}/tf_tiered_fees"
         query_params = append_query_param("", "effective_at", request.effective_at)
         response = self.client.request("GET", path, query=query_params, allowed_status_codes=request.allowed_status_codes)
-        return GetTradeFinanceTieredPricingFeesResponse(response.json())
+        return GetTradeFinanceTieredPricingFeesResponse(**response.json())

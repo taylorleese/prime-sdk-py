@@ -39,4 +39,4 @@ class PrimeClient:
     def get_entity_payment_method(self, request: GetEntityPaymentMethodRequest) -> GetEntityPaymentMethodResponse:
         path = f"/entities/{request.entity_id}/payment-methods/{request.payment_method_id}"
         response = self.client.request("GET", path, allowed_status_codes=request.allowed_status_codes)
-        return GetEntityPaymentMethodResponse(response.json())
+        return GetEntityPaymentMethodResponse(**response.json())

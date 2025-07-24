@@ -43,4 +43,4 @@ class PrimeClient:
         query_params = append_query_param("", "locate_ids", request.locate_ids)
         query_params = append_query_param(query_params, "locate_date", request.locate_date)
         response = self.client.request("GET", path, query=query_params, allowed_status_codes=request.allowed_status_codes)
-        return ListExistingLocatesResponse(response.json())
+        return ListExistingLocatesResponse(**response.json())

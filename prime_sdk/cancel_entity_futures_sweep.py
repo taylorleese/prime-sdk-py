@@ -39,4 +39,4 @@ class PrimeClient:
     def cancel_entity_futures_sweep(self, request: CancelEntityFuturesSweepRequest) -> CancelEntityFuturesSweepResponse:
         path = f"/entities/{request.entity_id}/futures/sweeps"
         response = self.client.request("DELETE", path, allowed_status_codes=request.allowed_status_codes)
-        return CancelEntityFuturesSweepResponse(response.json())
+        return CancelEntityFuturesSweepResponse(**response.json())

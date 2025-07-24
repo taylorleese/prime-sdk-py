@@ -220,6 +220,17 @@ class Position:
 
 
 @dataclass
+class OrderEditHistory:
+    price: str
+    size: str
+    display_size: str
+    stop_price: str
+    stop_limit_price: str
+    end_time: str
+    accept_time: str
+
+
+@dataclass
 class Order:
     id: str
     user_id: str
@@ -246,6 +257,11 @@ class Order:
     net_average_filled_price: str
     user_context: str
     client_product_id: str
+    post_only: bool = None
+    order_edit_history: List[OrderEditHistory] = None
+    is_raise_exact: bool = None
+    display_size: str = None
+    edit_history: List[OrderEditHistory] = None
 
 
 @dataclass
@@ -481,6 +497,8 @@ class Fill:
     time: str
     commission: str
     venue: str
+    venue_fees: str = None
+    ces_commission: str = None
 
 
 @dataclass
@@ -723,7 +741,7 @@ class MarginSummaryRecord:
 
 
 @dataclass
-class Balance:
+class EntityBalance:
     symbol: str
     long_amount: str
     long_notional: str
@@ -794,3 +812,10 @@ class PostTradeCredit:
 class Fee:
     symbol: str
     fee: str
+
+
+@dataclass
+class BlockchainAddress:
+    address: str
+    account_identifier: str
+    network: Network

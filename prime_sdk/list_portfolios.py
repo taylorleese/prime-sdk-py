@@ -37,4 +37,4 @@ class PrimeClient:
     def list_portfolios(self, request: ListPortfoliosRequest) -> ListPortfoliosResponse:
         path = "/portfolios"
         response = self.client.request("GET", path, allowed_status_codes=request.allowed_status_codes)
-        return ListPortfoliosResponse(response.json())
+        return ListPortfoliosResponse(**response.json())

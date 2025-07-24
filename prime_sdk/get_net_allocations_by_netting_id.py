@@ -39,4 +39,4 @@ class PrimeClient:
     def get_net_allocations_by_netting_id(self, request: GetNetAllocationsByNettingIdRequest) -> GetNetAllocationsByNettingIdResponse:
         path = f"/portfolios/{request.portfolio_id}/allocations/net/{request.netting_id}"
         response = self.client.request("GET", path, allowed_status_codes=request.allowed_status_codes)
-        return GetNetAllocationsByNettingIdResponse(response.json())
+        return GetNetAllocationsByNettingIdResponse(**response.json())

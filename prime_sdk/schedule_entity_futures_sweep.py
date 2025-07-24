@@ -42,4 +42,4 @@ class PrimeClient:
         path = f"/entities/{request.entity_id}/futures/sweeps"
         body = {k: v for k, v in asdict(request).items() if v is not None}
         response = self.client.request("POST", path, body=body, allowed_status_codes=request.allowed_status_codes)
-        return ScheduleEntityFuturesSweepResponse(response.json())
+        return ScheduleEntityFuturesSweepResponse(**response.json())

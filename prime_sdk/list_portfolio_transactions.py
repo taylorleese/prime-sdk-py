@@ -56,4 +56,4 @@ class PrimeClient:
 
         query_params = append_pagination_params(query_params, request.pagination)
         response = self.client.request("GET", path, query=query_params, allowed_status_codes=request.allowed_status_codes)
-        return ListPortfolioTransactionsResponse(response.json())
+        return ListPortfolioTransactionsResponse(**response.json())

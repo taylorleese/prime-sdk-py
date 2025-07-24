@@ -38,4 +38,4 @@ class PrimeClient:
     def get_portfolio_credit_information(self, request: GetPortfolioCreditInformationRequest) -> GetPortfolioCreditInformationResponse:
         path = f"/portfolios/{request.portfolio_id}/credit"
         response = self.client.request("GET", path, allowed_status_codes=request.allowed_status_codes)
-        return GetPortfolioCreditInformationResponse(response.json())
+        return GetPortfolioCreditInformationResponse(**response.json())

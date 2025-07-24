@@ -75,4 +75,4 @@ class PrimeClient:
             body["blockchain_address"] = asdict(request.blockchain_address)
 
         response = self.client.request("POST", path, body=body, allowed_status_codes=request.allowed_status_codes)
-        return CreateWithdrawalResponse(response.json())
+        return CreateWithdrawalResponse(**response.json())

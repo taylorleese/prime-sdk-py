@@ -42,4 +42,4 @@ class PrimeClient:
         path = f"/entities/{request.entity_id}/aggregate_positions"
         query_params = append_pagination_params(query_params, request.pagination)
         response = self.client.request("GET", path, query=query_params, allowed_status_codes=request.allowed_status_codes)
-        return ListAggregateEntityPositionsResponse(response.json())
+        return ListAggregateEntityPositionsResponse(**response.json())

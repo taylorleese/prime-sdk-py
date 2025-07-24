@@ -20,6 +20,9 @@ from prime_sdk.credentials import Credentials
 from prime_sdk.enums import BalanceType
 from prime_sdk.utils import PaginationParams, append_query_param, append_pagination_params
 from prime_sdk.model import Balance, BalanceWithHolds
+from dataclasses import asdict
+import dataclasses
+import json
 
 
 @dataclass
@@ -52,4 +55,4 @@ class PrimeClient:
         query_params = append_pagination_params(query_params, request.pagination)
 
         response = self.client.request("GET", path, query=query_params, allowed_status_codes=request.allowed_status_codes)
-        return ListPortfolioBalancesResponse(response.json(), request)
+        return ListPortfolioBalancesResponse(**response.json())

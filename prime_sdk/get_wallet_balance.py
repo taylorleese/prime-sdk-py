@@ -39,4 +39,4 @@ class PrimeClient:
     def get_wallet_balance(self, request: GetWalletBalanceRequest) -> GetWalletBalanceResponse:
         path = f"/portfolios/{request.portfolio_id}/wallets/{request.wallet_id}/balance"
         response = self.client.request("GET", path, allowed_status_codes=request.allowed_status_codes)
-        return GetWalletBalanceResponse(response.json())
+        return GetWalletBalanceResponse(**response.json())

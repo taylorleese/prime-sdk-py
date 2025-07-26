@@ -18,7 +18,7 @@ from prime_sdk.base_response import BaseResponse
 from prime_sdk.client import Client
 from typing import List, Optional
 from prime_sdk.credentials import Credentials
-from prime_sdk.model import Sweep
+from prime_sdk.model import Sweeps
 
 
 @dataclass
@@ -29,7 +29,7 @@ class ListEntityFuturesSweepsRequest:
 
 @dataclass
 class ListEntityFuturesSweepsResponse(BaseResponse):
-    sweeps: List[Sweep] = None
+    sweeps: List[Sweeps] = None
     auto_sweep: bool = None
 
 

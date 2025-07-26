@@ -26,9 +26,9 @@ from prime_sdk.model import Allocation
 @dataclass
 class ListPortfolioAllocationsRequest:
     portfolio_id: str
+    start_date: datetime
     product_ids: Optional[str] = None
     order_side: Optional[OrderSide] = None
-    start_date: datetime
     end_date: Optional[datetime] = None
     pagination: Optional[PaginationParams] = None
     allowed_status_codes: Optional[List[int]] = None

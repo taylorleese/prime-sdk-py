@@ -1,8 +1,21 @@
-# Prime Python SDK README
+# Prime Python SDK
 
 ## Overview
 
 The *Prime Python SDK* is a sample library that demonstrates the usage of the [Coinbase Prime](https://prime.coinbase.com/) API via its [REST APIs](https://docs.cdp.coinbase.com/prime/reference). This SDK provides a structured way to integrate Coinbase Prime functionalities into your Python applications.
+
+## Installation
+
+```bash
+pip install prime-sdk-py
+```
+
+For development:
+```bash
+git clone git@github.com:coinbase/prime-sdk-py.git
+cd prime-sdk-py
+pip install -e .
+```
 
 ## License
 
@@ -45,22 +58,65 @@ The JSON format expected for `PRIME_CREDENTIALS` is:
 Coinbase Prime API credentials can be created in the Prime web console under Settings -> APIs. While not immediately necessary for most endpoints, your entity ID can be retrieved by calling [List Portfolios](https://docs.cdp.coinbase.com/prime/reference/primerestapi_getportfolios).
 
 ### Making API Calls
-Once the client is initialized, make the desired call. For example, to [list portfolios](https://github.com/coinbase-samples/prime-sdk-py/blob/main/list_portfolios.py),
-pass in the request object, check for an error, and if nil, process the response.
+
+#### Using the Unified PrimeClient (Recommended)
+
+The SDK now provides a unified `PrimeClient` that consolidates all 70+ Prime API operations into a single class, eliminating the need to manage multiple imports:
 
 ```python
-from prime_sdk.list_portfolios import PrimeClient, ListPortfoliosRequest
+from prime_sdk import PrimeClient
+from prime_sdk.credentials import Credentials
+from prime_sdk.list_portfolios import ListPortfoliosRequest
+from prime_sdk.create_order import CreateOrderRequest
+from prime_sdk.enums import OrderSide, OrderType
+
+# Initialize credentials
+credentials = Credentials.from_env("PRIME_CREDENTIALS")
+client = PrimeClient(credentials)
+
+# List portfolios
+portfolios = client.list_portfolios(ListPortfoliosRequest())
+for portfolio in portfolios.portfolios:
+    print(f"Portfolio: {portfolio.name} (ID: {portfolio.id})")
+
+# Create an order
+order_request = CreateOrderRequest(
+    portfolio_id="your-portfolio-id",
+    product_id="BTC-USD",
+    side=OrderSide.BUY,
+    type=OrderType.MARKET,
+    base_quantity="0.001",
+    client_order_id="unique-order-id"
+)
+order_response = client.create_order(order_request)
+
+# Get wallet balance
+from prime_sdk.get_wallet_balance import GetWalletBalanceRequest
+balance = client.get_wallet_balance(
+    GetWalletBalanceRequest(
+        portfolio_id="your-portfolio-id",
+        wallet_id="your-wallet-id",
+        asset_id="BTC"
+    )
+)
+```
+
+#### Using Individual Client Classes
+
+For backwards compatibility, you can still import individual client classes from their respective modules, though this requires managing naming conflicts since each module exports a class named `PrimeClient`:
+
+```python
+from prime_sdk.list_portfolios import PrimeClient as PortfoliosClient, ListPortfoliosRequest
+from prime_sdk.create_order import PrimeClient as OrdersClient, CreateOrderRequest
 
 credentials = Credentials.from_env("PRIME_CREDENTIALS")
-prime_client = PrimeClient(credentials)
 
-request = ListPortfoliosRequest()
-try:
-    response = prime_client.list_portfolios(request)
-    print(response)
-except Exception as e:
-    print(f"Failed to list portfolios: {e}")
+# Need separate client instances for each operation
+portfolios_client = PortfoliosClient(credentials)
+orders_client = OrdersClient(credentials)
 
+# Make API calls
+portfolios = portfolios_client.list_portfolios(ListPortfoliosRequest())
 ```
 
 ### Supported Versions

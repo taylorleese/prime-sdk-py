@@ -1,10 +1,12 @@
+import unittest
 from prime_sdk.get_order import GetOrderResponse
 from prime_sdk.model import Order
 
 
-def test_get_order_response_parsing():
-    mock_json = {
-        "order": {
+class TestGetOrderResponse(unittest.TestCase):
+    def test_get_order_response_parsing(self):
+        # Mock order data
+        mock_order_data = {
             "id": "order-123",
             "user_id": "user-abc",
             "portfolio_id": "portfolio-xyz",
@@ -31,15 +33,24 @@ def test_get_order_response_parsing():
             "user_context": "some-context",
             "client_product_id": "BTC-USD"
         }
-    }
 
-    response = GetOrderResponse(response=mock_json)
+        # Create response with proper structure
+        response = GetOrderResponse(order=mock_order_data)
 
-    assert isinstance(response.response, dict)
-    assert "order" in response.response
-    assert isinstance(response.order, Order)
+        # Verify the order was parsed correctly
+        self.assertIsInstance(response.order, Order)
+        self.assertEqual(response.order.id, "order-123")
+        self.assertEqual(response.order.side, "BUY")
+        self.assertEqual(response.order.status, "FILLED")
+        self.assertEqual(response.order.product_id, "BTC-USD")
+        self.assertEqual(response.order.base_quantity, "1.0")
+        self.assertEqual(response.order.filled_quantity, "1.0")
 
-    assert response.order.id == "order-123"
-    assert response.order.side == "BUY"
-    assert response.order.status == "FILLED"
-    assert response.order.product_id == "BTC-USD"
+    def test_get_order_response_with_none(self):
+        # Test that response can handle None order
+        response = GetOrderResponse(order=None)
+        self.assertIsNone(response.order)
+
+
+if __name__ == '__main__':
+    unittest.main()

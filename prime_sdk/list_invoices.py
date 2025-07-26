@@ -18,7 +18,7 @@ from prime_sdk.client import Client
 from typing import Optional, List
 from prime_sdk.credentials import Credentials
 from prime_sdk.utils import PaginationParams, append_query_param, append_pagination_params
-from prime_sdk.model import Invoice
+from prime_sdk.model import Invoices
 
 
 @dataclass
@@ -33,7 +33,7 @@ class ListInvoicesRequest:
 
 @dataclass
 class ListInvoicesResponse(BaseResponse):
-    invoices: List[Invoice] = None
+    invoices: List[Invoices] = None
 
 
 class PrimeClient:
